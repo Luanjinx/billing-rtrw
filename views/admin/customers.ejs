@@ -1485,6 +1485,26 @@ function toggleConnectionFields(type) {
     macField.style.display = 'block';
   }
 
+  // Toggle required attribute on PPPoE fields to prevent HTML5 validation blocking
+  // when connection type is hotspot or static (hidden required fields block form submit)
+  const pppoePasswordEl = document.getElementById(type === 'add' ? 'add_pppoe_password' : 'e_pppoe_password');
+  const pppoeUsernameEl = type === 'add' ? null : document.getElementById('e_pppoe');
+  if (pppoePasswordEl) {
+    if (connType === 'pppoe') {
+      pppoePasswordEl.setAttribute('required', '');
+    } else {
+      pppoePasswordEl.removeAttribute('required');
+      pppoePasswordEl.value = '';
+    }
+  }
+  if (pppoeUsernameEl) {
+    if (connType === 'pppoe') {
+      pppoeUsernameEl.setAttribute('required', '');
+    } else {
+      pppoeUsernameEl.removeAttribute('required');
+    }
+  }
+
   if (connType === 'hotspot') {
     const routerId = (type === 'add' ? document.getElementById('add_router_select') : document.getElementById('e_router_id'))?.value || '';
     loadHotspotProfiles(type, routerId);
