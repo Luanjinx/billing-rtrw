@@ -2246,7 +2246,7 @@ router.post('/app/customer/topup/create', async (req, res) => {
       } catch (_) {}
     }
 
-    db.prepare('UPDATE customer_topup_requests SET payment_payload = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+    db.prepare('UPDATE customer_topup_requests SET payment_payload = ?, updated_at = (NOW_LOCAL()) WHERE id = ?')
       .run(JSON.stringify({ total_amount: totalAmount, unique_code: uniqueCode, qris_string: qrisPayload }), reqId);
 
     res.json({
@@ -2775,7 +2775,7 @@ router.post('/tickets/create', requireCustomerApiAuth, async (req, res) => {
   try {
     const info = db.prepare(`
       INSERT INTO tickets (customer_id, subject, message, status, created_at, updated_at)
-      VALUES (?, ?, ?, 'open', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      VALUES (?, ?, ?, 'open', (NOW_LOCAL()), (NOW_LOCAL()))
     `).run(customer.id, subject, message);
 
     const ticketId = info.lastInsertRowid;
@@ -2923,7 +2923,7 @@ router.post('/tech/tickets/:id/update', requireTechApiAuth, express.json(), (req
     if (techSvc.updateTicket) {
       techSvc.updateTicket(req.params.id, req.tech.techId, { status: status || 'resolved', notes: notes || '' });
     } else {
-      db.prepare(`UPDATE tickets SET status = ?, technician_notes = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?`)
+      db.prepare(`UPDATE tickets SET status = ?, technician_notes = ?, updated_at = (NOW_LOCAL()) WHERE id = ?`)
         .run(status || 'resolved', notes || '', req.params.id);
     }
     res.json({ success: true, message: 'Status tiket berhasil diperbarui.' });
