@@ -777,7 +777,7 @@
         width: 100% !important;
         border-radius: 28px 28px 0 0 !important;
         border: none !important;
-        padding: 16px 20px calc(80px + env(safe-area-inset-bottom)) 20px !important;
+        padding: 20px 20px calc(24px + env(safe-area-inset-bottom)) 20px !important;
         box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
         max-height: 85vh;
         overflow-y: auto;
@@ -1645,10 +1645,10 @@
         </div>
         <form action="/customer/tickets/create" method="POST" enctype="multipart/form-data">
           <input type="hidden" name="customerId" value="<%= profile ? profile.id : '' %>">
-          <div class="modal-body p-2">
-            <div class="mb-3">
-              <label class="form-label fw-bold">Jenis Kendala / Subjek</label>
-              <select name="subject" class="form-select p-3" style="border-radius:12px;" required>
+          <div class="modal-body p-1">
+            <div class="mb-2">
+              <label class="form-label fw-bold small text-muted mb-1" style="font-size:12px;">Jenis Kendala / Subjek</label>
+              <select name="subject" class="form-select py-2 px-3" style="border-radius:10px; font-size:13px;" required>
                 <option value="" disabled selected>-- Pilih Jenis Kendala --</option>
                 <option value="Koneksi Terputus / Tidak Bisa Konek">Koneksi Terputus / Tidak Bisa Konek</option>
                 <option value="Koneksi Lambat / Lemot">Koneksi Lambat / Lemot</option>
@@ -1658,22 +1658,22 @@
                 <option value="Lainnya">Lainnya</option>
               </select>
             </div>
-            <div class="mb-3">
-              <label class="form-label fw-bold">Detail Pesan / Penjelasan Kendala</label>
-              <textarea name="message" class="form-control p-3" rows="3" style="border-radius:12px;"
+            <div class="mb-2">
+              <label class="form-label fw-bold small text-muted mb-1" style="font-size:12px;">Detail Pesan / Penjelasan Kendala</label>
+              <textarea name="message" class="form-control py-2 px-3" rows="2" style="border-radius:10px; font-size:13px;"
                 placeholder="Penjelasan rincian kendala..." required></textarea>
             </div>
-            <div class="mb-3">
-              <label class="form-label fw-bold">Foto Lampiran (Opsional)</label>
-              <input type="file" name="photos" class="form-control" accept="image/*" multiple
-                style="border-radius:12px;">
+            <div class="mb-2">
+              <label class="form-label fw-bold small text-muted mb-1" style="font-size:12px;">Foto Lampiran (Opsional)</label>
+              <input type="file" name="photos" class="form-control py-1 px-3" accept="image/*" multiple
+                style="border-radius:10px; font-size:12.5px;">
             </div>
           </div>
-          <div class="modal-footer border-0 pt-0 pb-3 px-2 d-flex gap-2">
+          <div class="modal-footer border-0 pt-1 pb-2 px-1 d-flex gap-2">
             <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal"
-              style="border-radius:12px; font-weight:700;">Batal</button>
+              style="border-radius:10px; font-weight:700; font-size:13px;">Batal</button>
             <button type="submit" class="btn text-white fw-bold px-4 flex-grow-1 py-2"
-              style="background:var(--myrep-purple-primary); border-radius:12px; font-weight:800;">Kirim Tiket Keluhan</button>
+              style="background:var(--myrep-purple-primary); border-radius:10px; font-weight:800; font-size:13px;">Kirim Tiket Keluhan</button>
           </div>
         </form>
       </div>
