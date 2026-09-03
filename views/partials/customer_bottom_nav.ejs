@@ -1,123 +1,140 @@
 <!-- views/partials/customer_bottom_nav.ejs -->
-<% if (typeof isLoggedIn !== 'undefined' && isLoggedIn) { %>
+<% if (typeof isLoggedIn === 'undefined' || isLoggedIn) { %>
 <style>
   .customer-bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 70px;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(16px) saturate(180%);
-    border-top: 1px solid rgba(99, 102, 241, 0.25);
+    height: 66px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 1050;
-    padding-bottom: env(safe-area-inset-bottom);
-    box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.5);
+    z-index: 99999 !important;
+    padding: 4px 6px calc(4px + env(safe-area-inset-bottom)) 6px;
+    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.12);
+    pointer-events: auto !important;
   }
 
-  .nav-item {
+  .customer-bottom-nav .nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #cbd5e1;
-    text-decoration: none;
+    color: #94a3b8;
+    text-decoration: none !important;
     font-size: 11px;
-    font-weight: 700;
-    transition: all 0.25s ease;
+    font-weight: 600;
+    transition: all 0.2s ease;
     flex: 1;
-    height: 100%;
+    height: 52px;
+    border-radius: 14px;
     cursor: pointer;
     position: relative;
+    margin: 0 2px;
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: auto !important;
   }
 
-  .nav-item i {
+  .customer-bottom-nav .nav-item * {
+    pointer-events: none !important;
+  }
+
+  .customer-bottom-nav .nav-item i {
     font-size: 20px;
-    margin-bottom: 2px;
+    line-height: 1;
+    margin-bottom: 3px;
     transition: transform 0.2s ease, color 0.2s ease;
+    color: inherit;
   }
 
-  .nav-item:hover {
-    color: #ffffff;
+  .customer-bottom-nav .nav-item span {
+    font-size: 11px;
+    line-height: 1.1;
+    color: inherit;
   }
 
-  .nav-item.active {
-    color: #38bdf8;
+  .customer-bottom-nav .nav-item:hover {
+    color: #12504b;
+    background: rgba(18, 80, 75, 0.04);
   }
 
-  .nav-item.active i {
-    transform: translateY(-2px);
-    color: #38bdf8;
+  .customer-bottom-nav .nav-item.active {
+    color: #12504b !important;
+    font-weight: 700;
+    background: #e6f2f1;
+    box-shadow: inset 0 0 0 1px rgba(18, 80, 75, 0.15);
   }
 
-  .nav-item.active::after {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    width: 5px;
-    height: 5px;
-    background: #38bdf8;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #38bdf8;
+  .customer-bottom-nav .nav-item.active i {
+    transform: translateY(-1px) scale(1.05);
+    color: #12504b !important;
   }
 
-  /* Hide on desktop, show only on mobile */
+  @media (max-width: 991.98px) {
+    body {
+      padding-bottom: 74px !important;
+    }
+    .modal:not(#notifDrawerModal) {
+      z-index: 100005 !important;
+    }
+    .modal-backdrop {
+      z-index: 100000 !important;
+    }
+    .modal:not(#notifDrawerModal) .modal-dialog {
+      z-index: 100005 !important;
+    }
+    .modal:not(#notifDrawerModal) .modal-content {
+      padding-bottom: calc(75px + env(safe-area-inset-bottom)) !important;
+    }
+  }
+
   @media (min-width: 992px) {
     .customer-bottom-nav {
-      display: none;
+      display: flex !important;
+      max-width: 520px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 20px 20px 0 0;
+      border: 1px solid #cbd5e1;
+      border-bottom: none;
     }
     body {
-      padding-bottom: 0 !important;
+      padding-bottom: 74px !important;
     }
   }
 </style>
 
-<nav class="customer-bottom-nav">
-  <a href="/customer/dashboard#home-section" class="nav-item <%= activeNav === 'home' ? 'active' : '' %>">
+<nav class="customer-bottom-nav" id="customerBottomNav">
+  <a href="/customer/dashboard" class="nav-item <%= (typeof activeNav !== 'undefined' && activeNav === 'home') ? 'active' : '' %>">
     <i class="bi bi-house-door-fill"></i>
     <span>Beranda</span>
   </a>
-  <div class="nav-item" onclick="triggerEditSsidNav()" title="Ubah Nama WiFi">
-    <i class="bi bi-wifi text-info"></i>
-    <span>Nama WiFi</span>
-  </div>
-  <div class="nav-item" onclick="triggerEditPasswordNav()" title="Ubah Sandi WiFi">
-    <i class="bi bi-key-fill text-success"></i>
-    <span>Sandi WiFi</span>
-  </div>
-  <a href="/customer/dashboard#billing-section" class="nav-item <%= activeNav === 'billing' ? 'active' : '' %>">
-    <i class="bi bi-receipt-cutoff text-warning"></i>
-    <span>Tagihan</span>
+
+  <a href="/customer/transaction" class="nav-item <%= (typeof activeNav !== 'undefined' && activeNav === 'billing') ? 'active' : '' %>">
+    <i class="bi bi-card-checklist"></i>
+    <span>Transaksi</span>
   </a>
-  <div class="nav-item" onclick="triggerTicketNav()" title="Bantuan Keluhan">
-    <i class="bi bi-headset" style="color:#a855f7;"></i>
+
+  <a href="/customer/packages" class="nav-item <%= (typeof activeNav !== 'undefined' && activeNav === 'packages') ? 'active' : '' %>">
+    <i class="bi bi-cart3"></i>
+    <span>Paket</span>
+  </a>
+
+  <a href="/customer/help" class="nav-item <%= (typeof activeNav !== 'undefined' && activeNav === 'support') ? 'active' : '' %>">
+    <i class="bi bi-chat-dots-fill"></i>
     <span>Bantuan</span>
-  </div>
+  </a>
+
+  <a href="/customer/account" class="nav-item <%= (typeof activeNav !== 'undefined' && activeNav === 'account') ? 'active' : '' %>">
+    <i class="bi bi-person-circle"></i>
+    <span>Akun</span>
+  </a>
 </nav>
 
 <script>
-  function triggerEditSsidNav() {
-    if (typeof editSsid === 'function') {
-      const devId = (typeof customer !== 'undefined' && customer && customer.id) ? customer.id : '';
-      const ssid = (typeof customer !== 'undefined' && customer && customer.ssid) ? customer.ssid : '';
-      editSsid(devId, ssid);
-    } else {
-      window.location.href = '/customer/dashboard#home-section';
-    }
-  }
-
-  function triggerEditPasswordNav() {
-    if (typeof editPassword === 'function') {
-      const devId = (typeof customer !== 'undefined' && customer && customer.id) ? customer.id : '';
-      editPassword(devId);
-    } else {
-      window.location.href = '/customer/dashboard#home-section';
-    }
-  }
-
   function triggerTicketNav() {
     const el = document.getElementById('ticketModal');
     if (el && typeof bootstrap !== 'undefined') {
@@ -127,23 +144,5 @@
       window.location.href = '/customer/dashboard#ticket-section';
     }
   }
-
-  function updateActiveNav() {
-    const hash = window.location.hash;
-    document.querySelectorAll('.customer-bottom-nav .nav-item').forEach(item => {
-      item.classList.remove('active');
-      if (item.getAttribute('href') && item.getAttribute('href').includes(hash) && hash !== '') {
-        item.classList.add('active');
-      }
-    });
-    
-    if (hash === '' || hash === '#home-section') {
-       const homeNav = document.querySelector('.customer-bottom-nav a[href*="home-section"]');
-       if (homeNav) homeNav.classList.add('active');
-    }
-  }
-
-  window.addEventListener('hashchange', updateActiveNav);
-  window.addEventListener('load', updateActiveNav);
 </script>
 <% } %>
