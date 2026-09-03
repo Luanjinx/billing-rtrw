@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title><%= settings.company_header || 'Portal ISP' %> | <%= t('customer.login_title', 'Portal Login Pelanggan') %></title>
+  <title><%= settings.company_header || 'Portal ISP' %> | <%= t('customer.login_title', 'Masuk ke Portal Pelanggan') %></title>
 
   <!-- Preconnect & Fonts -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -17,7 +17,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
   <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#12504b">
+  <meta name="theme-color" content="#317fe4">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -26,306 +26,412 @@
 
   <style>
     :root {
-      --primary: #12504b;
-      --primary-dark: #0e3f3b;
-      --primary-light: #e6f2f1;
-      --primary-border: #b2dfdb;
-      --accent: #10b981;
-      --bg-body: #f8fafc;
-      --bg-card: #ffffff;
+      --primary-teal: #317fe4;
+      --primary-dark: #1f5eb1;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --accent-green: #10b981;
+      --bg-right: #f4f8fb;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
       --border-color: #e2e8f0;
-      --text-main: #0f2d2a;
-      --text-muted-custom: #64748b;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    body {
-      background-color: var(--bg-body);
-      background-image: 
-        radial-gradient(900px 500px at 15% 10%, rgba(18, 80, 75, 0.08) 0%, rgba(248, 250, 252, 0) 60%),
-        radial-gradient(800px 450px at 85% 90%, rgba(16, 185, 129, 0.06) 0%, rgba(248, 250, 252, 0) 55%);
-      color: var(--text-main);
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      background-color: var(--bg-right);
+      color: var(--text-dark);
+    }
+
+    .split-container {
       min-height: 100vh;
+      display: flex;
+      width: 100%;
+    }
+
+    /* ── LEFT PANEL (BRAND SIDE) ── */
+    .left-panel {
+      flex: 1;
+      background: linear-gradient(145deg, #317fe4 0%, #1a4f9c 100%);
+      color: #ffffff;
+      padding: 48px 56px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin: 0;
-      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* ── HEADER NAVBAR ── */
-    .portal-navbar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 14px 0;
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(18, 80, 75, 0) 70%);
+      pointer-events: none;
     }
 
-    .brand-logo-img {
-      height: 38px;
+    .brand-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-header-left img {
+      height: 42px;
       width: auto;
       object-fit: contain;
     }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #ecfdf5;
-      color: #047857;
-      border: 1px solid #a7f3d0;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 11.5px;
-      font-weight: 700;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
-      animation: pulseDot 2s infinite;
-    }
-
-    @keyframes pulseDot {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
-
-    /* ── MAIN CONTAINER ── */
-    .portal-main-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px 16px;
-    }
-
-    .portal-card {
-      width: 100%;
-      max-width: 440px;
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: 28px;
-      box-shadow: 0 16px 50px rgba(18, 80, 75, 0.08);
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .portal-card-header {
-      background: linear-gradient(135deg, #12504b 0%, #17635d 100%);
-      padding: 30px 24px 26px 24px;
-      text-align: center;
-      color: #ffffff;
-      position: relative;
-    }
-
-    .portal-logo-ring {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .portal-logo-ring img {
-      width: 38px;
-      height: 38px;
-      object-fit: contain;
-    }
-
-    .portal-card-title {
+    .brand-header-title {
       font-size: 1.35rem;
       font-weight: 800;
-      margin-bottom: 4px;
+      letter-spacing: -0.3px;
       color: #ffffff;
     }
 
-    .portal-card-sub {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.85);
+    .hero-welcome-box {
+      max-width: 500px;
+      margin: auto 0;
+    }
+
+    .hero-welcome-title {
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 18px;
+      color: #ffffff;
+      letter-spacing: -0.8px;
+    }
+
+    .hero-welcome-desc {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.6;
       margin-bottom: 0;
     }
 
-    .portal-card-body {
-      padding: 28px 24px;
+    /* Testimonial Widget Box */
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 480px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
 
-    /* ── FORM ELEMENTS ── */
-    .form-floating {
+    .testimonial-headline {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .testimonial-quote {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.55;
+      font-style: italic;
       margin-bottom: 16px;
     }
 
-    .form-control {
-      background: #f8fafc;
-      border: 1.5px solid #cbd5e1;
-      color: #0f2d2a;
-      border-radius: 14px;
-      height: 54px;
-      padding: 14px 18px;
-      font-size: 0.98rem;
-      font-weight: 600;
-      transition: all 0.25s ease;
+    .testimonial-user {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .form-control:focus {
-      background: #ffffff;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 0.25rem rgba(18, 80, 75, 0.18);
-      color: #0f2d2a;
-    }
-
-    .form-floating > label {
-      color: #64748b;
-      font-size: 0.9rem;
-    }
-
-    .form-floating > .form-control:focus ~ label,
-    .form-floating > .form-control:not(:placeholder-shown) ~ label {
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .btn-submit-portal {
-      background: linear-gradient(135deg, #12504b 0%, #17635d 100%);
-      border: none;
-      border-radius: 14px;
-      height: 52px;
-      font-size: 0.98rem;
-      font-weight: 800;
+    .user-avatar-pill {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
       color: #ffffff;
-      width: 100%;
+      font-weight: 800;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 22px rgba(18, 80, 75, 0.25);
-      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    .btn-submit-portal:hover {
-      background: linear-gradient(135deg, #0e3f3b 0%, #12504b 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(18, 80, 75, 0.4);
-      color: #ffffff;
-    }
-
-    /* ── QUICK TOOLS GRID ── */
-    .quick-tools-title {
-      font-size: 11.5px;
+    .user-info-name {
+      font-size: 0.88rem;
       font-weight: 800;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 24px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .quick-tools-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #e2e8f0;
-    }
-
-    .quick-tools-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .quick-tool-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 12px 14px;
-      text-decoration: none !important;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s ease;
-    }
-
-    .quick-tool-card:hover {
-      background: var(--primary-light);
-      border-color: var(--primary-border);
-      transform: translateY(-2px);
-    }
-
-    .quick-tool-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-
-    .quick-tool-title {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #0f2d2a;
+      color: #ffffff;
       line-height: 1.2;
     }
 
-    .quick-tool-sub {
-      font-size: 10.5px;
-      color: #64748b;
-      margin-top: 1px;
+    .user-info-role {
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.7);
     }
 
-    /* ── FOOTER ── */
-    .portal-footer {
-      background: #ffffff;
-      border-top: 1px solid var(--border-color);
-      padding: 20px 0;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #64748b;
+    .rating-stars {
+      color: #fbbf24;
+      font-size: 0.9rem;
+      display: flex;
+      gap: 3px;
     }
 
-    .footer-secure-badge {
-      display: inline-flex;
+    /* ── RIGHT PANEL (LIGHT LOGIN SIDE) ── */
+    .right-panel {
+      flex: 1;
+      background-color: var(--bg-right);
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      position: relative;
+    }
+
+    .login-form-wrapper {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .top-progress-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary-teal);
+      transition: all 0.3s ease;
+    }
+
+    .progress-dot.small-dot {
+      width: 7px;
+      height: 7px;
+    }
+
+    .progress-dot.active {
+      background: var(--primary-teal);
+      box-shadow: 0 0 0 3px rgba(18, 80, 75, 0.2);
+      animation: pulseGreenDot 2s infinite ease-in-out;
+    }
+
+    .progress-dot.inactive {
+      background: #cbd5e1;
+      opacity: 0.6;
+    }
+
+    .progress-bar-segment {
+      height: 4px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .progress-bar-segment.active {
+      width: 36px;
+      background: linear-gradient(90deg, #12504b 0%, #10b981 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar-segment.active::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+      animation: shimmerPill 2.5s infinite;
+    }
+
+    .progress-bar-segment.inactive {
+      width: 24px;
+      background: #cbd5e1;
+      opacity: 0.5;
+    }
+
+    @keyframes pulseGreenDot {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(18, 80, 75, 0.4); }
+      50% { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(18, 80, 75, 0); }
+    }
+
+    @keyframes shimmerPill {
+      0% { left: -100%; }
+      60%, 100% { left: 100%; }
+    }
+
+    .login-main-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--primary-teal);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .login-main-subtitle {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* Form Fields */
+    .field-label {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .custom-input-box {
+      width: 100%;
+      height: 52px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 14px;
+      padding: 0 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .custom-input-box:focus {
+      outline: none;
+      border-color: var(--primary-teal);
+      box-shadow: 0 0 0 0.25rem rgba(18, 80, 75, 0.15);
+      background: #ffffff;
+    }
+
+    .btn-masuk-primary {
+      width: 100%;
+      height: 52px;
+      background: var(--primary-teal);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(18, 80, 75, 0.25);
+      margin-top: 24px;
+    }
+
+    .btn-masuk-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(18, 80, 75, 0.38);
+      color: #ffffff;
+    }
+
+    /* Quick Action Tools Bar */
+    .quick-access-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .quick-access-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px 8px;
+      text-decoration: none !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .quick-access-btn:hover {
+      background: var(--primary-light);
+      border-color: #b2dfdb;
+      transform: translateY(-2px);
+    }
+
+    .quick-access-icon {
+      font-size: 1.25rem;
+    }
+
+    .quick-access-label {
       font-size: 11px;
       font-weight: 700;
-      color: #047857;
-      background: #ecfdf5;
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid #a7f3d0;
-      margin-bottom: 10px;
+      color: var(--text-dark);
     }
 
-    @media (max-width: 575.98px) {
-      .portal-card-body {
-        padding: 24px 18px;
+    .register-footer-link {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .register-footer-link a {
+      color: var(--primary-teal);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .register-footer-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* PWA Floating Install Button for Mobile/Desktop */
+    .top-right-nav-home {
+      position: absolute;
+      top: 32px;
+      right: 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ── RESPONSIVE MOBILE STYLES ── */
+    @media (max-width: 991.98px) {
+      .left-panel {
+        display: none; /* Hide heavy panel on mobile for instant login */
       }
-      .portal-card-header {
-        padding: 24px 18px;
+      .right-panel {
+        padding: 40px 20px;
+        min-height: 100vh;
       }
-      .quick-tools-grid {
-        grid-template-columns: 1fr 1fr;
+      .top-right-nav-home {
+        top: 20px;
+        right: 20px;
+      }
+      .login-main-title {
+        font-size: 1.85rem;
+      }
+      .quick-access-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -333,66 +439,98 @@
 
 <body>
 
-  <!-- ── HEADER NAVBAR ── -->
-  <nav class="portal-navbar">
-    <div class="container d-flex align-items-center justify-content-between">
-      <a href="/customer/home" class="d-flex align-items-center gap-2 text-decoration-none">
+  <div class="split-container">
+
+    <!-- ── LEFT PANEL (DARK TEAL BRAND SIDE - DESKTOP VIEW) ── -->
+    <div class="left-panel">
+
+      <!-- Top Header Brand (Clickable to /customer/home) -->
+      <a href="/customer/home" class="brand-header-left text-decoration-none">
         <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" 
-             alt="Logo" class="brand-logo-img" onerror="this.style.display='none'">
-        <span class="fw-extrabold fs-5 text-dark"><%= settings.company_header || 'Portal Pelanggan' %></span>
+             alt="Logo" onerror="this.style.display='none'">
       </a>
 
-      <div class="d-flex align-items-center gap-2">
-        <a href="/customer/home" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1.5 fw-bold text-decoration-none me-1 d-none d-sm-inline-flex">
-          <i class="bi bi-house-door me-1"></i> Beranda
-        </a>
-        <div class="status-pill d-none d-md-inline-flex">
-          <span class="status-dot"></span> Sistem Online
-        </div>
-        <button type="button" class="btn btn-sm btn-warning rounded-pill px-3 py-1.5 fw-bold shadow-sm" onclick="triggerPwaInstall()">
-          <i class="bi bi-download me-1"></i> Install App
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ── MAIN LOGIN PORTAL ── -->
-  <div class="portal-main-wrapper">
-    <div class="portal-card">
-
-      <!-- Header Card -->
-      <div class="portal-card-header">
-        <div class="portal-logo-ring">
-          <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" 
-               alt="Logo" onerror="this.src='/favicon.ico'; this.onerror=null;">
-        </div>
-        <h1 class="portal-card-title"><%= t('customer.portal_title', 'Portal Pelanggan') %></h1>
-        <p class="portal-card-sub"><%= settings.company_header %> • Layanan Internet Fiber</p>
+      <!-- Hero Welcome Message -->
+      <div class="hero-welcome-box">
+        <h1 class="hero-welcome-title">Welcome Back.</h1>
+        <p class="hero-welcome-desc">
+          Selamat datang kembali di Portal Resmi <strong><%= settings.company_header %></strong>. Kelola jaringan internet fiber optic Anda dengan cepat, aman, dan mudah.
+        </p>
       </div>
 
-      <!-- Body Card -->
-      <div class="portal-card-body">
-        <form method="POST" action="/customer/login">
-          <div class="form-floating">
-            <input type="text" class="form-control" id="phone" name="phone" 
-                   placeholder="<%= t('customer.id_tag_placeholder', 'Masukkan ID/Tag Pelanggan') %>" required autofocus>
-            <label for="phone">
-              <i class="bi bi-person-badge me-2"></i>ID / Tag Pelanggan / No. HP
-            </label>
+      <!-- Testimonial / Quality Guarantee Card -->
+      <div class="testimonial-card">
+        <div class="testimonial-headline">Guaranteed Quality & Uptime</div>
+        <div class="testimonial-quote">
+          "Koneksi internet fiber optic super cepat, stabil 24/7 tanpa FUP. Layanan pembayaran tagihan & bantuan CS terintegrasi sangat memudahkan."
+        </div>
+        <div class="testimonial-user">
+          <div class="d-flex align-items-center gap-3">
+            <div class="user-avatar-pill">PS</div>
+            <div>
+              <div class="user-info-name">Pelanggan Setia</div>
+              <div class="user-info-role"><%= settings.company_header %> Customer</div>
+            </div>
           </div>
+          <div class="rating-stars">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+          </div>
+        </div>
+      </div>
 
-          <div class="text-center mb-3 small text-muted">
-            <i class="bi bi-info-circle me-1"></i> Masukkan ID pelanggan atau Nomor WhatsApp terdaftar
+    </div>
+
+    <!-- ── RIGHT PANEL (LIGHT LOGIN SIDE) ── -->
+    <div class="right-panel">
+
+
+
+      <!-- Main Login Form Box -->
+      <div class="login-form-wrapper">
+
+        <!-- Centered Logo Brand Header (Mobile View Only) -->
+        <div class="text-center mb-3 d-lg-none">
+          <a href="/customer/home" class="d-inline-flex align-items-center justify-content-center text-decoration-none">
+            <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" 
+                 alt="Logo" style="height: 48px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
+          </a>
+        </div>
+
+        <!-- Progress Dots Pill with Animation -->
+        <div class="top-progress-pill justify-content-center">
+          <div class="progress-dot active"></div>
+          <div class="progress-bar-segment active"></div>
+          <div class="progress-dot active small-dot"></div>
+          <div class="progress-bar-segment inactive"></div>
+          <div class="progress-dot inactive small-dot"></div>
+        </div>
+
+        <!-- Form Title Header -->
+        <h2 class="login-main-title">Masuk ke Akun</h2>
+        <p class="login-main-subtitle">
+          Masukkan ID/Tag Pelanggan atau Nomor WhatsApp Anda untuk melanjutkan
+        </p>
+
+        <!-- Form Fields -->
+        <form method="POST" action="/customer/login">
+          <div class="mb-3">
+            <label for="phone" class="field-label">ID / Tag Pelanggan / Nomor WhatsApp</label>
+            <input type="text" class="custom-input-box" id="phone" name="phone" 
+                   placeholder="Contoh: ID12345 atau 08123456789" required autofocus>
           </div>
 
           <% if (settings.login_otp_enabled) { %>
             <div class="alert alert-info py-2 px-3 mb-3 small border-0 bg-info bg-opacity-15 text-info rounded-3 text-center fw-semibold">
-              <i class="bi bi-whatsapp me-1"></i> <%= t('customer.otp_sent_via_wa', 'Kode OTP akan dikirim via WhatsApp') %>
+              <i class="bi bi-whatsapp me-1"></i> Kode OTP akan dikirimkan via WhatsApp resmi
             </div>
           <% } %>
 
-          <button type="submit" class="btn btn-submit-portal">
-            <span><%= t('customer.sign_in', 'Masuk Ke Portal Pelanggan') %></span>
+          <button type="submit" class="btn-masuk-primary">
+            <span>Masuk</span>
             <i class="bi bi-arrow-right fs-5"></i>
           </button>
         </form>
@@ -404,85 +542,45 @@
           </div>
         <% } %>
 
-        <!-- Layanan Cepat Grid -->
-        <div class="quick-tools-title">Layanan Cepat Pelanggan</div>
-        <div class="quick-tools-grid">
-          <a href="/customer/check-billing" class="quick-tool-card">
-            <div class="quick-tool-icon" style="background:#e0f2fe; color:#0284c7;">
-              <i class="bi bi-receipt"></i>
-            </div>
-            <div>
-              <div class="quick-tool-title">Cek Tagihan</div>
-              <div class="quick-tool-sub">Status bayar</div>
-            </div>
+        <!-- Layanan Cepat Shortcuts Grid -->
+        <div class="quick-access-grid">
+          <a href="/customer/check-billing" class="quick-access-btn">
+            <i class="bi bi-receipt text-info quick-access-icon"></i>
+            <span class="quick-access-label">Cek Tagihan</span>
           </a>
 
-          <a href="/customer/voucher" class="quick-tool-card">
-            <div class="quick-tool-icon" style="background:#fef3c7; color:#d97706;">
-              <i class="bi bi-ticket-perforated"></i>
-            </div>
-            <div>
-              <div class="quick-tool-title">Beli Voucher</div>
-              <div class="quick-tool-sub">Wi-Fi Hotspot</div>
-            </div>
+          <a href="/customer/voucher" class="quick-access-btn">
+            <i class="bi bi-ticket-perforated text-warning quick-access-icon"></i>
+            <span class="quick-access-label">Beli Voucher</span>
           </a>
 
-          <a href="/customer/register" class="quick-tool-card">
-            <div class="quick-tool-icon" style="background:#ecfdf5; color:#059669;">
-              <i class="bi bi-person-plus"></i>
-            </div>
-            <div>
-              <div class="quick-tool-title">Pasang Baru</div>
-              <div class="quick-tool-sub">Daftar jaringan</div>
-            </div>
+          <a href="/customer/register" class="quick-access-btn">
+            <i class="bi bi-person-plus text-success quick-access-icon"></i>
+            <span class="quick-access-label">Pasang Baru</span>
           </a>
 
           <% 
             let waClean = String(settings.company_phone || '').replace(/\D/g, '');
             if (waClean.startsWith('0')) waClean = '62' + waClean.slice(1);
           %>
-          <a href="<%= waClean ? 'https://wa.me/' + waClean : '#' %>" target="_blank" rel="noopener" class="quick-tool-card">
-            <div class="quick-tool-icon" style="background:#e6f2f1; color:#12504b;">
-              <i class="bi bi-headset"></i>
-            </div>
-            <div>
-              <div class="quick-tool-title">Bantuan CS</div>
-              <div class="quick-tool-sub">Live Chat WA</div>
-            </div>
+          <a href="<%= waClean ? 'https://wa.me/' + waClean : '#' %>" target="_blank" rel="noopener" class="quick-access-btn">
+            <i class="bi bi-whatsapp text-success quick-access-icon"></i>
+            <span class="quick-access-label">Bantuan CS</span>
           </a>
         </div>
 
-        <div class="text-center mt-4 pt-3 border-top">
-          <p class="mb-0 small text-muted">
-            <%= t('customer.not_subscribed', 'Belum berlangganan?') %>
-            <a href="/customer/register" class="fw-bold text-decoration-none ms-1" style="color: #12504b;">
-              <%= t('customer.register_new', 'Daftar Pemasangan Baru') %> <i class="bi bi-arrow-right"></i>
-            </a>
-          </p>
+        <!-- Register Link -->
+        <div class="register-footer-link">
+          Belum punya akun? <a href="/customer/register">Daftar sekarang</a>
         </div>
 
       </div>
+
     </div>
+
   </div>
 
-  <!-- ── FOOTER ── -->
-  <footer class="portal-footer">
-    <div class="container">
-      <div class="footer-secure-badge">
-        <i class="bi bi-shield-lock-fill"></i> Sesi Login Aman (SSL 256-Bit Encrypted)
-      </div>
-      <div>
-        &copy; <%= new Date().getFullYear() %> <strong><%= settings.company_header %></strong>. All rights reserved.
-      </div>
-      <div class="small text-muted mt-1">
-        <a href="/customer/home" class="text-muted text-decoration-none me-2">Beranda</a> • 
-        <a href="/customer/tos" class="text-muted text-decoration-none me-2 ms-2">Syarat & Ketentuan</a> • 
-        <a href="/customer/privacy" class="text-muted text-decoration-none ms-2">Kebijakan Privasi</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Floating PWA Install Banner -->
+  <!-- PWA Install Banner & Modal -->
   <div id="pwa-install-banner" class="position-fixed bottom-0 start-50 translate-middle-x p-3 mb-3" style="z-index: 9999; max-width: 92%; width: 440px; display: none;">
     <div class="card p-3 shadow-2xl border-warning rounded-4 d-flex align-items-center justify-content-between gap-3" style="background: #ffffff;">
       <div class="d-flex align-items-center gap-3">
@@ -491,7 +589,7 @@
         </div>
         <div>
           <h6 class="fw-bold mb-0 text-dark">Install Aplikasi Pelanggan</h6>
-          <small class="text-muted" style="font-size:12px">Akses instan tanpa buka browser tiap kali login!</small>
+          <small class="text-muted" style="font-size:12px">Akses cepat tanpa buka browser!</small>
         </div>
       </div>
       <div class="d-flex align-items-center gap-2">
@@ -503,7 +601,6 @@
     </div>
   </div>
 
-  <!-- PWA Install Modal -->
   <div class="modal fade" id="pwaInstallModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content text-dark border border-secondary border-opacity-25 shadow-2xl" style="background: #ffffff; border-radius: 16px;">
@@ -544,7 +641,7 @@
         </div>
       </div>
     </div>
-  </div
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
