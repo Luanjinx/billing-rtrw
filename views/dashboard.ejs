@@ -1303,14 +1303,13 @@
                       <div class="service-label">Transaksi</div>
                     </a>
 
-                    <div class="service-item dock-extra-desktop"
-                      onclick="const m = new bootstrap.Modal(document.getElementById('ticketModal')); m.show();">
+                    <a href="/customer/help" class="service-item dock-extra-desktop text-decoration-none">
                       <div class="service-icon-box"
                         style="background: linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%); color: #c026d3; font-size: 26px;">
                         <i class="bi bi-headset"></i>
                       </div>
                       <div class="service-label">Tiket Keluhan</div>
-                    </div>
+                    </a>
 
                     <% if (showPPOB) { %>
                       <a href="/customer/ppob" class="service-item dock-extra-desktop text-decoration-none">
@@ -1372,13 +1371,13 @@
                       <div class="service-label">Transaksi</div>
                     </a>
 
-                    <div class="service-item" onclick="closeDockBottomSheet(); const m = new bootstrap.Modal(document.getElementById('ticketModal')); m.show();">
+                    <a href="/customer/help" class="service-item text-decoration-none" onclick="closeDockBottomSheet()">
                       <div class="service-icon-box"
                         style="background: linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%); color: #c026d3;">
                         <i class="bi bi-headset"></i>
                       </div>
                       <div class="service-label">Tiket Keluhan</div>
-                    </div>
+                    </a>
 
                     <% if (showPPOB) { %>
                       <a href="/customer/ppob" class="service-item text-decoration-none" onclick="closeDockBottomSheet()">
@@ -1407,67 +1406,7 @@
 
 
 
-                  <div class="accordion customer-accordion mb-4" id="customerAccordion">
-                    <div class="accordion-item myrep-card mb-3" id="ticket-section">
-                      <h2 class="accordion-header">
-                        <button class="accordion-button collapsed bg-white text-dark fw-bold" type="button"
-                          data-bs-toggle="collapse" data-bs-target="#collapseTicket">
-                          <i class="bi bi-headset me-2 text-purple" style="color:var(--myrep-purple-primary);"></i>
-                          Tiket Keluhan & Bantuan
-                        </button>
-                      </h2>
-                      <div id="collapseTicket" class="accordion-collapse collapse" data-bs-parent="#customerAccordion">
-                        <div class="accordion-body p-3">
-                          <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="fw-bold mb-0 text-dark">Daftar Tiket Kendala Anda</h6>
-                            <button class="btn btn-sm text-white fw-bold"
-                              onclick="const m = new bootstrap.Modal(document.getElementById('ticketModal')); m.show();"
-                              style="background:var(--myrep-purple-primary); border-radius:10px;">
-                              <i class="bi bi-plus-lg me-1"></i> Buat Tiket
-                            </button>
-                          </div>
-                          <% if (tickets && tickets.length> 0) { %>
-                            <div class="table-responsive">
-                              <table class="table align-middle">
-                                <thead>
-                                  <tr style="background:#e6f2f1;">
-                                    <th>ID Tiket</th>
-                                    <th>Subjek</th>
-                                    <th>Tanggal</th>
-                                    <th>Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <% tickets.forEach(t=> { %>
-                                    <tr>
-                                      <td class="fw-bold text-primary">#TK-<%= t.id %>
-                                      </td>
-                                      <td>
-                                        <%= t.subject %>
-                                      </td>
-                                      <td class="small text-muted">
-                                        <%= t.created_at %>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="badge <%= t.status === 'open' ? 'bg-warning text-dark' : t.status === 'in_progress' ? 'bg-info text-dark' : 'bg-success' %>"
-                                          style="border-radius:6px;">
-                                          <%= t.status==='open' ? 'TERKIRIM' : t.status==='in_progress'
-                                            ? 'DIPROSES TEKNISI' : 'SELESAI' %>
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <% }) %>
-                                </tbody>
-                              </table>
-                            </div>
-                            <% } else { %>
-                              <div class="text-center text-muted py-3">Belum ada tiket keluhan yang dibuat.</div>
-                              <% } %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
 
 
   </div>
@@ -1632,53 +1571,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="ticketModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-3">
-        <div class="dock-sheet-handle"></div>
-        <div class="d-flex align-items-center justify-content-between mb-3 px-1">
-          <h6 class="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2" style="font-size:16px;">
-            <i class="bi bi-headset text-purple fs-5" style="color:var(--myrep-purple-primary);"></i> Buat Tiket Keluhan
-            Baru
-          </h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size:12px;"></button>
-        </div>
-        <form action="/customer/tickets/create" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="customerId" value="<%= profile ? profile.id : '' %>">
-          <div class="modal-body p-1">
-            <div class="mb-2">
-              <label class="form-label fw-bold small text-muted mb-1" style="font-size:12px;">Jenis Kendala / Subjek</label>
-              <select name="subject" class="form-select py-2 px-3" style="border-radius:10px; font-size:13px;" required>
-                <option value="" disabled selected>-- Pilih Jenis Kendala --</option>
-                <option value="Koneksi Terputus / Tidak Bisa Konek">Koneksi Terputus / Tidak Bisa Konek</option>
-                <option value="Koneksi Lambat / Lemot">Koneksi Lambat / Lemot</option>
-                <option value="Lampu PON Merah / Los Sinyal">Lampu PON Merah / Los Sinyal</option>
-                <option value="Kendala Lupa Password WiFi">Kendala Lupa Password WiFi</option>
-                <option value="Pertanyaan Tagihan & Pembayaran">Pertanyaan Tagihan & Pembayaran</option>
-                <option value="Lainnya">Lainnya</option>
-              </select>
-            </div>
-            <div class="mb-2">
-              <label class="form-label fw-bold small text-muted mb-1" style="font-size:12px;">Detail Pesan / Penjelasan Kendala</label>
-              <textarea name="message" class="form-control py-2 px-3" rows="2" style="border-radius:10px; font-size:13px;"
-                placeholder="Penjelasan rincian kendala..." required></textarea>
-            </div>
-            <div class="mb-2">
-              <label class="form-label fw-bold small text-muted mb-1" style="font-size:12px;">Foto Lampiran (Opsional)</label>
-              <input type="file" name="photos" class="form-control py-1 px-3" accept="image/*" multiple
-                style="border-radius:10px; font-size:12.5px;">
-            </div>
-          </div>
-          <div class="modal-footer border-0 pt-1 pb-2 px-1 d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal"
-              style="border-radius:10px; font-weight:700; font-size:13px;">Batal</button>
-            <button type="submit" class="btn text-white fw-bold px-4 flex-grow-1 py-2"
-              style="background:var(--myrep-purple-primary); border-radius:10px; font-weight:800; font-size:13px;">Kirim Tiket Keluhan</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+
 
   <%- include('partials/customer_bottom_nav', { activeNav: 'home' , isLoggedIn: true }) %>
 
@@ -1687,8 +1580,7 @@
       let pModal = null;
 
       function triggerMairaSupport() {
-        const m = new bootstrap.Modal(document.getElementById('ticketModal'));
-        m.show();
+        window.location.href = '/customer/help';
       }
 
       function toggleExpandedDock() {
