@@ -765,7 +765,7 @@ const {
   updateCustomerTag
 } = customerDevice;
 
-router.get(['/home', '/landing'], (req, res) => {
+router.get(['/', '/home', '/landing'], (req, res) => {
   const settings = getSettingsWithCache();
   const packages = customerSvc.getAllPackages().filter(p => p.is_active !== 0);
   res.render('home', { settings, packages });
