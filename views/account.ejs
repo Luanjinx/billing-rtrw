@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="<%= (typeof lang !== 'undefined' && lang) ? lang : 'id' %>">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akun | <%= settings && settings.company_header ? settings.company_header : 'MyRepublic' %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="theme-color" content="#12504b">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --primary-color: #12504b;
+      --primary-dark: #0e3f3b;
+      --primary-light: #e6f2f1;
+      --text-main: #0f2d2a;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      background: #ffffff;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding-bottom: 85px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── HEADER BANNER OVERLAY STYLE (EXACT APP STYLE) ── */
+    .account-top-header {
+      background: linear-gradient(180deg, #12504b 0%, #17635d 100%);
+      height: 110px;
+      width: 100%;
+    }
+
+    .account-floating-container {
+      margin-top: -65px;
+      padding: 0 16px;
+    }
+
+    /* Floating White Card */
+    .floating-account-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 18px 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    /* User Strip inside card */
+    .user-control-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .user-avatar-circle {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 50%;
+      background: #12504b;
+      border: 1.5px solid #12a498;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .user-client-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f2d2a;
+      margin-bottom: 2px;
+      line-height: 1.2;
+    }
+
+    .user-client-phone {
+      font-size: 16px;
+      font-weight: 800;
+      color: #12504b;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+    }
+
+    .user-saldo-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-align: right;
+      margin-bottom: 2px;
+    }
+
+    .user-saldo-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: #12504b;
+      text-align: right;
+    }
+
+    .user-control-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      border-top: 1px solid #f1f5f9;
+      margin-top: 12px;
+      padding-top: 12px;
+    }
+
+    .user-control-actions-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .user-control-actions-top form {
+      flex: 1;
+    }
+
+    .btn-action-reconnect {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #059669;
+      font-weight: 700;
+      font-size: 12px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-action-logout {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      font-weight: 700;
+      font-size: 12px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-action-poll {
+      background: #e6f2f1;
+      border: 1px solid #b2dfdb;
+      color: #12504b;
+      font-weight: 700;
+      font-size: 12px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    /* Guest Banner Card */
+    .guest-banner-title {
+      font-weight: 800;
+      font-size: 17px;
+      color: #0f2d2a;
+      margin-bottom: 4px;
+    }
+
+    .guest-banner-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .btn-guest-login {
+      background: #12504b;
+      color: #ffffff;
+      border: none;
+      font-weight: 800;
+      font-size: 14px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-guest-login:hover {
+      background: #0e3f3b;
+      color: #ffffff;
+    }
+
+    /* ── MENU LIST SECTIONS (MATCHING APP SCREENSHOT STYLE) ── */
+    .menu-section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f2d2a;
+      margin-top: 28px;
+      margin-bottom: 8px;
+      padding: 0 4px;
+    }
+
+    .menu-list-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 4px;
+      text-decoration: none !important;
+      color: #0f2d2a;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.2s ease;
+    }
+
+    .menu-list-item:hover {
+      opacity: 0.8;
+    }
+
+    .menu-item-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .menu-icon-box {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #1e293b;
+      flex-shrink: 0;
+    }
+
+    .menu-text-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+
+    .menu-text-sub {
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    .menu-chevron {
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── TOP HEADER COLOR BLOCK ── -->
+  <div class="account-top-header"></div>
+
+  <!-- ── FLOATING CARD CONTAINER ── -->
+  <div class="container account-floating-container">
+    <div class="floating-account-card" id="account-section">
+      <% if (typeof isLoggedIn !== 'undefined' && isLoggedIn && (profile || customer)) { %>
+        <!-- ── USER STRIP (LOGGED IN) ── -->
+        <div class="user-control-main">
+          <div class="d-flex align-items-center gap-3">
+            <div class="user-avatar-circle">
+              <i class="bi bi-person-fill"></i>
+            </div>
+            <div>
+              <div class="user-client-label">
+                <%= profile ? profile.name : (customer ? customer.phone : '') %>
+              </div>
+              <div class="user-client-phone">
+                <%= profile ? (profile.phone || profile.genieacs_tag || profile.pppoe_username) : (customer ? customer.phone : '') %>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-end">
+            <div class="user-saldo-label">
+              <%= (typeof showPPOB !== 'undefined' && showPPOB) ? 'Saldo PPOB' : 'Status Layanan' %>
+            </div>
+            <div class="user-saldo-value">
+              <% if (typeof showPPOB !== 'undefined' && showPPOB) { %>
+                Rp <%= (customerBalance || 0).toLocaleString('id-ID') %>
+              <% } else { %>
+                <%= (customer && customer.status) ? customer.status : 'Aktif' %>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-control-actions">
+          <div class="user-control-actions-top">
+            <form method="POST" action="/customer/reconnect" title="Re-connect Internet">
+              <button type="submit" class="btn btn-action-reconnect">
+                <i class="bi bi-arrow-repeat"></i> Re-Connect
+              </button>
+            </form>
+
+            <form method="POST" action="/customer/logout" title="Logout">
+              <button type="submit" class="btn btn-action-logout">
+                <i class="bi bi-box-arrow-right"></i> Logout
+              </button>
+            </form>
+          </div>
+
+          <div id="deviceSyncPanel"
+            data-sync-in-progress="<%= (typeof customer !== 'undefined' && customer && customer.syncInProgress) ? 'true' : 'false' %>"
+            style="width:100%;">
+            <button type="button" id="btnDeviceRefresh" class="btn btn-action-poll w-100">
+              <i class="bi bi-cpu"></i> Poll ONU Sekarang
+            </button>
+          </div>
+        </div>
+      <% } else { %>
+        <!-- ── GUEST BANNER CARD (NOT LOGGED IN) ── -->
+        <div class="guest-banner-title">Masuk dulu, yuk!!</div>
+        <div class="guest-banner-desc">
+          Ada diskon dan benefit khusus buatmu yang berlangganan <%= settings && settings.company_header ? settings.company_header : 'ISP Kami' %>
+        </div>
+        <a href="/customer/login" class="btn-guest-login">Masuk</a>
+      <% } %>
+    </div>
+
+    <!-- ── MENU LIST SECTIONS (MATCHING APP SCREENSHOT STYLE) ── -->
+    <% if (typeof isLoggedIn !== 'undefined' && isLoggedIn && (profile || customer)) { %>
+      <div class="menu-section-title">Akun Saya</div>
+      <div class="menu-list-group">
+        <a href="/customer/account/info" class="menu-list-item">
+          <div class="menu-item-left">
+            <div class="menu-icon-box">
+              <i class="bi bi-person-vcard"></i>
+            </div>
+            <div>
+              <div class="menu-text-title">Informasi Akun Pelanggan</div>
+              <div class="menu-text-sub">Profil, ID Pelanggan & Alamat</div>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right menu-chevron"></i>
+        </a>
+
+        <a href="/customer/device" class="menu-list-item">
+          <div class="menu-item-left">
+            <div class="menu-icon-box">
+              <i class="bi bi-router"></i>
+            </div>
+            <div>
+              <div class="menu-text-title">Perangkat Modem / ONT</div>
+              <div class="menu-text-sub">WiFi, Sandi, Redaman Rx & Restart Modem</div>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right menu-chevron"></i>
+        </a>
+
+        <a href="/customer/speedtest" class="menu-list-item">
+          <div class="menu-item-left">
+            <div class="menu-icon-box">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <div>
+              <div class="menu-text-title">Uji Kecepatan (Speedtest)</div>
+              <div class="menu-text-sub">Cek kecepatan internet download & upload</div>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right menu-chevron"></i>
+        </a>
+
+        <a href="/customer/help" class="menu-list-item">
+          <div class="menu-item-left">
+            <div class="menu-icon-box">
+              <i class="bi bi-headset"></i>
+            </div>
+            <div>
+              <div class="menu-text-title">Pusat Bantuan & Tiket Keluhan</div>
+              <div class="menu-text-sub">Laporan kendala teknis & bantuan teknisi</div>
+            </div>
+          </div>
+          <i class="bi bi-chevron-right menu-chevron"></i>
+        </a>
+      </div>
+    <% } %>
+
+    <div class="menu-section-title">Pengaturan Umum</div>
+    <div class="menu-list-group">
+      <div class="menu-list-item" style="cursor: pointer;" onclick="alert('Bahasa default: Bahasa Indonesia')">
+        <div class="menu-item-left">
+          <div class="menu-icon-box">
+            <i class="bi bi-translate"></i>
+          </div>
+          <div>
+            <div class="menu-text-title">Ganti Bahasa</div>
+            <div class="menu-text-sub">Bahasa Indonesia</div>
+          </div>
+        </div>
+        <i class="bi bi-chevron-right menu-chevron"></i>
+      </div>
+    </div>
+
+    <div class="menu-section-title">Tentang</div>
+    <div class="menu-list-group">
+      <a href="/customer/tos" class="menu-list-item">
+        <div class="menu-item-left">
+          <div class="menu-icon-box">
+            <i class="bi bi-file-earmark-text"></i>
+          </div>
+          <div>
+            <div class="menu-text-title">Syarat dan Ketentuan Berlangganan</div>
+          </div>
+        </div>
+        <i class="bi bi-chevron-right menu-chevron"></i>
+      </a>
+
+      <a href="/customer/privacy" class="menu-list-item">
+        <div class="menu-item-left">
+          <div class="menu-icon-box">
+            <i class="bi bi-shield"></i>
+          </div>
+          <div>
+            <div class="menu-text-title">Kebijakan Privasi</div>
+          </div>
+        </div>
+        <i class="bi bi-chevron-right menu-chevron"></i>
+      </a>
+
+      <a href="/customer/about" class="menu-list-item">
+        <div class="menu-item-left">
+          <div class="menu-icon-box">
+            <i class="bi bi-info-circle"></i>
+          </div>
+          <div>
+            <div class="menu-text-title">Informasi Aplikasi</div>
+            <div class="menu-text-sub">Version 1.4.9</div>
+          </div>
+        </div>
+        <i class="bi bi-chevron-right menu-chevron"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <%- include('partials/customer_bottom_nav', { activeNav: 'account' }) %>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnDeviceRefresh = document.getElementById('btnDeviceRefresh');
+      if (btnDeviceRefresh) {
+        btnDeviceRefresh.addEventListener('click', async () => {
+          btnDeviceRefresh.disabled = true;
+          btnDeviceRefresh.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Memeriksa ONU...';
+          try {
+            const res = await fetch('/api/device/refresh', { method: 'POST' });
+            const data = await res.json();
+            if (data && data.ok) {
+              btnDeviceRefresh.innerHTML = '<i class="bi bi-check-circle text-success"></i> Selesai!';
+            } else {
+              await fetch('/customer/poll-onu', { method: 'POST' }).catch(() => { });
+            }
+            setTimeout(() => { location.reload(); }, 1000);
+          } catch (e) {
+            location.reload();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

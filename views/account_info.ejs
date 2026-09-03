@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="<%= (typeof lang !== 'undefined' && lang) ? lang : 'id' %>">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informasi Akun Pelanggan | <%= settings && settings.company_header ? settings.company_header : 'MyRepublic' %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="theme-color" content="#12504b">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --primary-color: #12504b;
+      --primary-dark: #0e3f3b;
+      --primary-light: #e6f2f1;
+      --text-main: #0f2d2a;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      background: #ffffff;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding-bottom: 85px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .account-top-header {
+      background: linear-gradient(180deg, #12504b 0%, #17635d 100%);
+      padding: 20px 16px 50px 16px;
+      color: #ffffff;
+    }
+
+    .top-brand-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-back-nav {
+      color: #ffffff;
+      font-size: 22px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-page-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .account-floating-container {
+      margin-top: -35px;
+      padding: 0 16px;
+    }
+
+    .info-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .info-card-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f2d2a;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      font-size: 13px;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .info-val {
+      color: #0f2d2a;
+      font-weight: 700;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── HEADER BANNER ── -->
+  <div class="account-top-header">
+    <div class="container p-0">
+      <div class="top-brand-bar">
+        <a href="/customer/account" class="btn-back-nav">
+          <i class="bi bi-arrow-left"></i>
+        </a>
+        <h1 class="header-page-title">Informasi Akun Pelanggan</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FLOATING CONTAINER ── -->
+  <div class="container account-floating-container">
+    
+    <!-- ── 2 CARDS SIDE-BY-SIDE ── -->
+    <div class="row g-2 mb-3">
+      <div class="col-6">
+        <div
+          style="background:#ffffff; border-radius:16px; padding:12px; box-shadow:0 4px 18px rgba(0,0,0,0.06); border:1px solid rgba(178,223,219,0.6); display:flex; align-items:center; gap:10px; height:100%;">
+          <div
+            style="width:36px; height:36px; border-radius:50%; background:#e6f2f1; color:#12504b; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">
+            <i class="bi bi-person-vcard-fill"></i>
+          </div>
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:11px; font-weight:700; color:#64748b; line-height:1.2;">ID Pelanggan</div>
+            <div
+              style="font-size:12px; font-weight:800; color:#12504b; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; margin-top:2px;"
+              title="ID: <%= profile ? (profile.genieacs_tag || profile.pppoe_username || profile.phone) : (customer ? customer.phone : '') %>">
+              ID: <%= profile ? (profile.genieacs_tag || profile.pppoe_username || profile.phone) : (customer ? customer.phone : '') %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div
+          style="background:#ffffff; border-radius:16px; padding:12px; box-shadow:0 4px 18px rgba(0,0,0,0.06); border:1px solid rgba(178,223,219,0.6); display:flex; align-items:center; gap:10px; height:100%;">
+          <div
+            style="width:36px; height:36px; border-radius:50%; background:<%= (typeof profile !== 'undefined' && profile && profile.status === 'active') || (typeof customer !== 'undefined' && customer && customer.status === 'Online') ? '#ecfdf5' : '#fef2f2' %>; color:<%= (typeof profile !== 'undefined' && profile && profile.status === 'active') || (typeof customer !== 'undefined' && customer && customer.status === 'Online') ? '#047857' : '#dc2626' %>; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">
+            <i
+              class="bi <%= (typeof profile !== 'undefined' && profile && profile.status === 'active') || (typeof customer !== 'undefined' && customer && customer.status === 'Online') ? 'bi-wifi' : 'bi-wifi-off' %>"></i>
+          </div>
+          <div style="min-width:0; flex:1;">
+            <div style="font-size:11px; font-weight:700; color:#64748b; line-height:1.2;">Status Layanan</div>
+            <div
+              style="font-size:13px; font-weight:800; margin-top:2px; color:<%= (typeof profile !== 'undefined' && profile && profile.status === 'active') || (typeof customer !== 'undefined' && customer && customer.status === 'Online') ? '#059669' : '#dc2626' %>;">
+              <%= (typeof profile !== 'undefined' && profile) ? (profile.status === 'active' ? 'Aktif' : 'Isolir') : (customer && customer.status ? customer.status : 'Aktif') %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Profil Pelanggan -->
+    <div class="info-card">
+      <div class="info-card-title">
+        <i class="bi bi-person-lines-fill text-success"></i> Informasi Profil Pelanggan
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nama Lengkap</span>
+        <span class="info-val"><%= profile ? profile.name : '-' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nomor HP / WhatsApp</span>
+        <span class="info-val"><%= profile ? profile.phone : (customer ? customer.phone : '-') %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Username PPPoE / Tag</span>
+        <span class="info-val"><%= profile ? (profile.pppoe_username || profile.genieacs_tag || '-') : '-' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Alamat Pemasangan</span>
+        <span class="info-val"><%= profile ? (profile.address || '-') : '-' %></span>
+      </div>
+    </div>
+
+    <!-- Detail Perangkat & Wifi -->
+    <div class="info-card">
+      <div class="info-card-title">
+        <i class="bi bi-router-fill text-primary"></i> Detail Perangkat ONU / WiFi
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nama WiFi (SSID)</span>
+        <span class="info-val"><%= customer ? customer.ssid : '-' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Redaman Optik (Rx Power)</span>
+        <span class="info-val"><%= customer ? (customer.rxPower + ' dBm') : '-' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Perangkat Terhubung</span>
+        <span class="info-val"><%= customer ? (customer.totalAssociations + ' Perangkat') : '0' %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Uptime Perangkat</span>
+        <span class="info-val"><%= customer ? customer.uptime : '-' %></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <%- include('partials/customer_bottom_nav', { activeNav: 'account' }) %>
+</body>
+
+</html>
