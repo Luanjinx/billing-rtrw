@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Pusat Bantuan & Tiket Keluhan | <%= (typeof settings !== 'undefined' && settings.company_header) ? settings.company_header : 'MyRepublic Fiber' %></title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>">
+  <meta name="theme-color" content="#12504b">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --primary-color: #12504b;
+      --primary-dark: #0e3f3b;
+      --primary-light: #e6f2f1;
+      --primary-border: #b2dfdb;
+      --card-bg: #ffffff;
+      --text-main: #0f2d2a;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #ffffff;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e293b;
+      min-height: 100vh;
+      padding-bottom: 90px;
+      margin: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── HEADER BANNER ── */
+    .help-top-header {
+      background: linear-gradient(180deg, #12504b 0%, #17635d 100%);
+      padding: 18px 16px 45px 16px;
+      color: #ffffff;
+    }
+
+    .top-brand-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none !important;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back-home:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .header-page-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    /* ── FLOATING CONTAINER ── */
+    .help-floating-container {
+      margin-top: -30px;
+      padding: 0 16px;
+    }
+
+    .support-hero-card {
+      background: #ffffff;
+      border: 1px solid #b2dfdb;
+      border-radius: 20px;
+      padding: 20px 18px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      margin-bottom: 20px;
+    }
+
+    .support-icon-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e6f2f1 0%, #b2dfdb 100%);
+      color: #12504b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 14px rgba(18, 80, 75, 0.15);
+      margin-bottom: 12px;
+    }
+
+    .btn-create-ticket {
+      background: #12504b;
+      color: #ffffff;
+      border: none;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(18, 80, 75, 0.25);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-create-ticket:hover {
+      background: #0e3f3b;
+      transform: translateY(-1px);
+    }
+
+    .btn-wa-support {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      text-decoration: none !important;
+      transition: all 0.2s ease;
+    }
+
+    .btn-wa-support:hover {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    /* ── STATS BOXES ── */
+    .stat-card-mini {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-card-mini .lbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .stat-card-mini .val {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0f2d2a;
+      line-height: 1.1;
+      margin-top: 2px;
+    }
+
+    /* ── FILTER PILLS ── */
+    .ticket-filter-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .ticket-filter-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ticket-pill {
+      background: #ffffff;
+      color: #64748b;
+      border: 1px solid #cbd5e1;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .ticket-pill.active {
+      background: #12504b;
+      color: #ffffff;
+      border-color: #12504b;
+      box-shadow: 0 3px 10px rgba(18, 80, 75, 0.2);
+    }
+
+    /* ── TICKET CARDS ── */
+    .ticket-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ticket-card:hover {
+      border-color: #b2dfdb;
+      transform: translateY(-2px);
+    }
+
+    .ticket-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ticket-badge.open {
+      background: #fef3c7;
+      color: #d97706;
+      border: 1px solid #fde68a;
+    }
+
+    .ticket-badge.in_progress {
+      background: #e0f2fe;
+      color: #0284c7;
+      border: 1px solid #bae6fd;
+    }
+
+    .ticket-badge.resolved {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    .ticket-code {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+
+    .ticket-subject {
+      font-weight: 800;
+      font-size: 15px;
+      color: #0f2d2a;
+      margin-top: 4px;
+      margin-bottom: 6px;
+    }
+
+    .ticket-msg {
+      font-size: 12.5px;
+      color: #475569;
+      line-height: 1.45;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .ticket-tech-notes {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #047857;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
+
+    /* ── FAQ ACCORDION ── */
+    .faq-accordion .accordion-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px !important;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .faq-accordion .accordion-button {
+      font-weight: 800;
+      font-size: 13.5px;
+      color: #0f2d2a;
+      background: #ffffff;
+      padding: 14px 16px;
+      box-shadow: none !important;
+    }
+
+    .faq-accordion .accordion-button:not(.collapsed) {
+      background: #e6f2f1;
+      color: #12504b;
+    }
+
+    .faq-accordion .accordion-body {
+      font-size: 12.5px;
+      color: #475569;
+      line-height: 1.5;
+      padding: 14px 16px;
+    }
+
+    /* ── MOBILE MODAL BOTTOM SHEET OVERRIDES ── */
+    @media (max-width: 767px) {
+      .modal:not(#notifDrawerModal) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        z-index: 100005 !important;
+      }
+
+      .modal-backdrop {
+        z-index: 100000 !important;
+      }
+
+      .modal:not(#notifDrawerModal) .modal-dialog,
+      .modal:not(#notifDrawerModal) .modal-dialog.modal-dialog-centered {
+        position: fixed !important;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        display: flex !important;
+        align-items: flex-end !important;
+        transform: translate3d(0, 100%, 0) !important;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        z-index: 100005 !important;
+      }
+
+      .modal:not(#notifDrawerModal).show .modal-dialog,
+      .modal:not(#notifDrawerModal).show .modal-dialog.modal-dialog-centered {
+        transform: translate3d(0, 0, 0) !important;
+      }
+
+      .modal:not(#notifDrawerModal) .modal-content {
+        width: 100% !important;
+        border-radius: 28px 28px 0 0 !important;
+        border: none !important;
+        padding: 16px 20px calc(85px + env(safe-area-inset-bottom)) 20px !important;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
+        max-height: 85vh;
+        overflow-y: auto;
+        margin-bottom: 0 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── HEADER BANNER ── -->
+  <div class="help-top-header">
+    <div class="container p-0">
+      <div class="top-brand-bar">
+        <a href="/customer/dashboard" class="btn-back-home">
+          <i class="bi bi-arrow-left"></i> Beranda
+        </a>
+        <h1 class="header-page-title">Pusat Bantuan & Tiket</h1>
+        <div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FLOATING CONTAINER ── -->
+  <div class="container help-floating-container">
+
+    <!-- Notification Alert (if any) -->
+    <% if (typeof notif !== 'undefined' && notif && notif.text) { %>
+      <div class="alert alert-<%= notif.type === 'danger' ? 'danger' : (notif.type === 'warning' ? 'warning' : 'success') %> alert-dismissible fade show mb-3" role="alert" style="border-radius: 14px;">
+        <i class="bi bi-info-circle me-1"></i> <%= notif.text %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
+    <!-- Hero Card Bantuan -->
+    <div class="support-hero-card">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="support-icon-badge">
+          <i class="bi bi-headset"></i>
+        </div>
+        <div>
+          <h5 class="fw-extrabold text-dark mb-1" style="font-size: 16px;">Ada Kendala Layanan Internet?</h5>
+          <p class="text-muted small mb-0" style="font-size: 11.5px; line-height: 1.35;">
+            Tim bantuan kami siap memproses keluhan teknis Anda dengan cepat.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-2">
+        <div class="col-6">
+          <button type="button" class="btn-create-ticket" onclick="openTicketModal()">
+            <i class="bi bi-plus-circle-fill"></i> Buat Tiket
+          </button>
+        </div>
+        <div class="col-6">
+          <% const waNumber = (typeof settings !== 'undefined' && settings.company_phone) ? settings.company_phone.replace(/\D/g, '') : ''; %>
+          <a href="https://wa.me/<%= waNumber %>?text=<%= encodeURIComponent('Halo Admin Support, saya ingin bertanya seputar kendala internet pelanggan.') %>" target="_blank" class="btn-wa-support">
+            <i class="bi bi-whatsapp fs-5"></i> Live Chat WA
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <% 
+      const allTickets = tickets || [];
+      const openCount = allTickets.filter(t => t.status === 'open').length;
+      const progressCount = allTickets.filter(t => t.status === 'in_progress').length;
+      const resolvedCount = allTickets.filter(t => t.status === 'resolved').length;
+    %>
+    <div class="row g-2 mb-4">
+      <div class="col-3">
+        <div class="stat-card-mini">
+          <div class="lbl">Total</div>
+          <div class="val"><%= allTickets.length %></div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card-mini" style="background:#fffbe6; border-color:#fde68a;">
+          <div class="lbl" style="color:#d97706;">Antrean</div>
+          <div class="val text-warning"><%= openCount %></div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card-mini" style="background:#f0f9ff; border-color:#bae6fd;">
+          <div class="lbl" style="color:#0284c7;">Proses</div>
+          <div class="val text-primary" style="color:#0284c7 !important;"><%= progressCount %></div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stat-card-mini" style="background:#f0fdf4; border-color:#a7f3d0;">
+          <div class="lbl" style="color:#059669;">Selesai</div>
+          <div class="val text-success"><%= resolvedCount %></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RIWAYAT TIKET KELUHAN ── -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h5 class="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2" style="font-size: 16px;">
+        <i class="bi bi-receipt-cutoff text-primary" style="color:#12504b !important;"></i> Riwayat Tiket Keluhan
+      </h5>
+    </div>
+
+    <!-- Filter Pills -->
+    <div class="ticket-filter-pills">
+      <div class="ticket-pill active" onclick="filterTickets('all', this)">Semua (<%= allTickets.length %>)</div>
+      <div class="ticket-pill" onclick="filterTickets('open', this)">Antrean (<%= openCount %>)</div>
+      <div class="ticket-pill" onclick="filterTickets('in_progress', this)">Diproses (<%= progressCount %>)</div>
+      <div class="ticket-pill" onclick="filterTickets('resolved', this)">Selesai (<%= resolvedCount %>)</div>
+    </div>
+
+    <!-- Ticket Cards List -->
+    <div class="mb-4">
+      <% if (allTickets && allTickets.length > 0) { %>
+        <% allTickets.forEach(t => { %>
+          <% 
+            const isResolved = t.status === 'resolved';
+            const isInProgress = t.status === 'in_progress';
+            let badgeClass = 'open';
+            let badgeLabel = 'Menunggu Antrean';
+            if (isInProgress) { badgeClass = 'in_progress'; badgeLabel = t.technician_name ? `Diproses (${t.technician_name})` : 'Sedang Diproses'; }
+            else if (isResolved) { badgeClass = 'resolved'; badgeLabel = 'Selesai'; }
+            
+            const dateStr = t.created_at ? new Date(t.created_at).toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+          %>
+          <div class="ticket-card ticket-item-row" data-status="<%= t.status %>">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="ticket-code">#TK-00<%= t.id %> • <%= dateStr %></span>
+              <span class="ticket-badge <%= badgeClass %>">
+                <i class="bi <%= isResolved ? 'bi-check-circle-fill' : (isInProgress ? 'bi-tools' : 'bi-clock-history') %>"></i>
+                <%= badgeLabel %>
+              </span>
+            </div>
+
+            <div class="ticket-subject">
+              <%= t.subject %>
+            </div>
+
+            <div class="ticket-msg">
+              <%= t.message %>
+            </div>
+
+            <% if (t.technician_notes || isResolved) { %>
+              <div class="ticket-tech-notes">
+                <i class="bi bi-chat-left-quote-fill me-1"></i>
+                <strong>Tanggapan Teknisi:</strong> <%= t.technician_notes || 'Tiket keluhan telah diselesaikan oleh teknisi.' %>
+              </div>
+            <% } %>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="text-center text-muted py-4 bg-light rounded-4 border">
+          <i class="bi bi-headset fs-2 d-block text-muted mb-2"></i>
+          <div class="fw-bold" style="font-size: 13px;">Belum Ada Tiket Keluhan</div>
+          <div class="small text-muted">Klik tombol "Buat Tiket" jika Anda membutuhkan bantuan teknisi.</div>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- ── FAQ & PUSAT BANTUAN ── -->
+    <div class="mb-4">
+      <h5 class="fw-extrabold text-dark mb-3 d-flex align-items-center gap-2" style="font-size: 16px;">
+        <i class="bi bi-question-circle-fill text-primary" style="color:#12504b !important;"></i> Tanya Jawab Umum (FAQ)
+      </h5>
+
+      <div class="accordion faq-accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              <i class="bi bi-router me-2 text-primary"></i> Lampu indikator PON pada modem berwarna merah?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Lampu PON berkedip merah atau mati menandakan kabel fiber optik mengalami gangguan sinyal. Cobalah memeriksa kabel optik kuning kecil di belakang modem agar tidak terlipat atau lepas. Jika tetap merah, silakan buat Tiket Keluhan agar teknisi kami mengecek jalur jaringan.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              <i class="bi bi-speedometer2 me-2 text-success"></i> Bagaimana cara restart modem / router ONT?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Matikan sakelar daya modem di bagian belakang atau cabut adaptor listrik selama 10 detik, kemudian colokkan kembali. Tunggu hingga lampu indikator PON dan WiFi kembali menyala hijau stabil.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+              <i class="bi bi-qr-code-scan me-2 text-warning"></i> Bagaimana cara pembayaran tagihan bulanan?
+            </button>
+          </h2>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Anda dapat membayar tagihan bulanan melalui menu <strong>Transaksi</strong> di aplikasi ini, kemudian klik tombol <strong>Bayar Sekarang</strong>. Sistem mendukung pembayaran instan via QRIS (DANA, GoPay, OVO, ShopeePay, Mobile Banking) dan Bank Virtual Account.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+              <i class="bi bi-clock-history me-2 text-purple"></i> Berapa lama estimasi penanganan tiket keluhan?
+            </button>
+          </h2>
+          <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Setiap tiket keluhan yang masuk akan langsung dikirim ke sistem teknisi lapangan. Estimasi penanganan berkisar antara 30 menit hingga maksimal 1x24 jam tergantung tingkat gangguan teknis di lokasi.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── MODAL BUAT TIKET KELUHAN ── -->
+  <div class="modal fade" id="ticketModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="dock-sheet-handle"></div>
+        <div class="d-flex align-items-center justify-content-between mb-3 px-1">
+          <h6 class="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2" style="font-size:16px;">
+            <i class="bi bi-headset text-primary fs-5" style="color:#12504b !important;"></i> Buat Tiket Keluhan Baru
+          </h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size:12px;"></button>
+        </div>
+        <form action="/customer/tickets/create" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="customerId" value="<%= profile ? profile.id : '' %>">
+          <div class="modal-body p-2">
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-muted">Jenis Kendala / Subjek</label>
+              <select name="subject" class="form-select p-3" style="border-radius:12px;" required>
+                <option value="" disabled selected>-- Pilih Jenis Kendala --</option>
+                <option value="Koneksi Terputus / Tidak Bisa Konek">Koneksi Terputus / Tidak Bisa Konek</option>
+                <option value="Koneksi Lambat / Lemot">Koneksi Lambat / Lemot</option>
+                <option value="Lampu PON Merah / Los Sinyal">Lampu PON Merah / Los Sinyal</option>
+                <option value="Kendala Lupa Password WiFi">Kendala Lupa Password WiFi</option>
+                <option value="Pertanyaan Tagihan & Pembayaran">Pertanyaan Tagihan & Pembayaran</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-muted">Detail Pesan / Penjelasan Kendala</label>
+              <textarea name="message" class="form-control p-3" rows="3" style="border-radius:12px;"
+                placeholder="Jelaskan detail rincian kendala yang Anda alami..." required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold small text-muted">Foto Lampiran (Opsional)</label>
+              <input type="file" name="photos" class="form-control" accept="image/*" multiple
+                style="border-radius:12px;">
+            </div>
+          </div>
+          <div class="modal-footer border-0 pt-0 pb-3 px-2 d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal"
+              style="border-radius:12px; font-weight:700;">Batal</button>
+            <button type="submit" class="btn text-white fw-bold px-4 flex-grow-1 py-2"
+              style="background:#12504b; border-radius:12px; font-weight:800;">Kirim Tiket Keluhan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <%- include('partials/customer_bottom_nav', { isLoggedIn: true, activeNav: 'support' }) %>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function openTicketModal() {
+      const el = document.getElementById('ticketModal');
+      if (el && typeof bootstrap !== 'undefined') {
+        const modal = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+        modal.show();
+      }
+    }
+
+    function filterTickets(type, btn) {
+      document.querySelectorAll('.ticket-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      document.querySelectorAll('.ticket-item-row').forEach(card => {
+        const status = card.getAttribute('data-status');
+        if (type === 'all') {
+          card.style.display = '';
+        } else if (type === status) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('action') === 'create' || urlParams.get('new') === '1') {
+        setTimeout(openTicketModal, 300);
+      }
+    });
+  </script>
+</body>
+</html>
