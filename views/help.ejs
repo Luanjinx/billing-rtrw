@@ -327,6 +327,14 @@
       padding: 14px 16px;
     }
 
+    .dock-sheet-handle {
+      width: 42px;
+      height: 4px;
+      background: #cbd5e1;
+      border-radius: 4px;
+      margin: 0 auto 16px auto;
+    }
+
     /* ── MOBILE MODAL BOTTOM SHEET OVERRIDES ── */
     @media (max-width: 767px) {
       .modal:not(#notifDrawerModal) {
@@ -367,7 +375,7 @@
         width: 100% !important;
         border-radius: 28px 28px 0 0 !important;
         border: none !important;
-        padding: 16px 20px calc(85px + env(safe-area-inset-bottom)) 20px !important;
+        padding: 20px 20px calc(24px + env(safe-area-inset-bottom)) 20px !important;
         box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
         max-height: 85vh;
         overflow-y: auto;
@@ -606,7 +614,7 @@
   <!-- ── MODAL BUAT TIKET KELUHAN ── -->
   <div class="modal fade" id="ticketModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-3">
+      <div class="modal-content">
         <div class="dock-sheet-handle"></div>
         <div class="d-flex align-items-center justify-content-between mb-3 px-1">
           <h6 class="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2" style="font-size:16px;">
@@ -616,10 +624,10 @@
         </div>
         <form action="/customer/tickets/create" method="POST" enctype="multipart/form-data">
           <input type="hidden" name="customerId" value="<%= profile ? profile.id : '' %>">
-          <div class="modal-body p-2">
+          <div class="modal-body p-0 mb-3">
             <div class="mb-3">
-              <label class="form-label fw-bold small text-muted">Jenis Kendala / Subjek</label>
-              <select name="subject" class="form-select p-3" style="border-radius:12px;" required>
+              <label class="form-label fw-bold small text-muted mb-1.5" style="font-size:12.5px;">Jenis Kendala / Subjek</label>
+              <select name="subject" class="form-select py-2.5 px-3" style="border-radius:12px; font-size:13.5px;" required>
                 <option value="" disabled selected>-- Pilih Jenis Kendala --</option>
                 <option value="Koneksi Terputus / Tidak Bisa Konek">Koneksi Terputus / Tidak Bisa Konek</option>
                 <option value="Koneksi Lambat / Lemot">Koneksi Lambat / Lemot</option>
@@ -630,21 +638,21 @@
               </select>
             </div>
             <div class="mb-3">
-              <label class="form-label fw-bold small text-muted">Detail Pesan / Penjelasan Kendala</label>
-              <textarea name="message" class="form-control p-3" rows="3" style="border-radius:12px;"
+              <label class="form-label fw-bold small text-muted mb-1.5" style="font-size:12.5px;">Detail Pesan / Penjelasan Kendala</label>
+              <textarea name="message" class="form-control py-2.5 px-3" rows="3" style="border-radius:12px; font-size:13.5px;"
                 placeholder="Jelaskan detail rincian kendala yang Anda alami..." required></textarea>
             </div>
-            <div class="mb-3">
-              <label class="form-label fw-bold small text-muted">Foto Lampiran (Opsional)</label>
-              <input type="file" name="photos" class="form-control" accept="image/*" multiple
-                style="border-radius:12px;">
+            <div class="mb-2">
+              <label class="form-label fw-bold small text-muted mb-1.5" style="font-size:12.5px;">Foto Lampiran (Opsional)</label>
+              <input type="file" name="photos" class="form-control py-2 px-3" accept="image/*" multiple
+                style="border-radius:12px; font-size:13px;">
             </div>
           </div>
-          <div class="modal-footer border-0 pt-0 pb-3 px-2 d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary px-4 py-2" data-bs-dismiss="modal"
-              style="border-radius:12px; font-weight:700;">Batal</button>
-            <button type="submit" class="btn text-white fw-bold px-4 flex-grow-1 py-2"
-              style="background:#12504b; border-radius:12px; font-weight:800;">Kirim Tiket Keluhan</button>
+          <div class="modal-footer border-0 p-0 d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary py-2.5 px-4" data-bs-dismiss="modal"
+              style="border-radius:12px; font-weight:700; font-size:13.5px;">Batal</button>
+            <button type="submit" class="btn text-white fw-bold py-2.5 px-4 flex-grow-1"
+              style="background:#12504b; border-radius:12px; font-weight:800; font-size:13.5px;">Kirim Tiket Keluhan</button>
           </div>
         </form>
       </div>
