@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Riwayat & Status Tagihan | <%= (typeof settings !== 'undefined' && settings.company_header) ? settings.company_header : 'MyRepublic Fiber' %></title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>">
+  <meta name="theme-color" content="#12504b">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --primary-color: #12504b;
+      --primary-dark: #0e3f3b;
+      --primary-light: #e6f2f1;
+      --primary-border: #b2dfdb;
+      --card-bg: #ffffff;
+      --text-main: #0f2d2a;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #ffffff;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e293b;
+      min-height: 100vh;
+      padding-bottom: 85px;
+      margin: 0;
+    }
+
+    .tx-top-header {
+      background: linear-gradient(180deg, #12504b 0%, #17635d 100%);
+      padding: 20px 16px 50px 16px;
+      color: #ffffff;
+    }
+
+    .top-brand-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none !important;
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 100;
+    }
+
+    .btn-back-home:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .header-page-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .tx-floating-container {
+      margin-top: -35px;
+      padding: 0 16px;
+    }
+
+    .info-running-card {
+      background: #ffffff;
+      border: 1px solid #b2dfdb;
+      border-radius: 18px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+      margin-bottom: 16px;
+    }
+
+    .info-badge-left {
+      background: #fef3c7;
+      color: #d97706;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .info-running-body {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .info-marquee-text {
+      display: inline-block;
+      animation: marquee 22s linear infinite;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .btn-pay-ticker {
+      background: #12504b;
+      color: #ffffff;
+      border: none;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(18, 80, 75, 0.25);
+      cursor: pointer;
+    }
+
+    .stat-card-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 18px;
+      height: 100%;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .tx-filter-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #64748b;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tx-filter-btn.active {
+      background: #12504b;
+      color: #ffffff;
+      border-color: #12504b;
+      box-shadow: 0 4px 12px rgba(18, 80, 75, 0.25);
+    }
+
+    .invoice-card-redesign {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      margin-bottom: 16px;
+    }
+
+    .invoice-card-redesign:hover {
+      border-color: #b2dfdb;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 767px) {
+      .modal:not(#notifDrawerModal) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        z-index: 100005 !important;
+      }
+
+      .modal-backdrop {
+        z-index: 100000 !important;
+      }
+
+      .modal:not(#notifDrawerModal) .modal-dialog,
+      .modal:not(#notifDrawerModal) .modal-dialog.modal-dialog-centered {
+        position: fixed !important;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        display: flex !important;
+        align-items: flex-end !important;
+        transform: translate3d(0, 100%, 0) !important;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        z-index: 100005 !important;
+      }
+
+      .modal:not(#notifDrawerModal).show .modal-dialog,
+      .modal:not(#notifDrawerModal).show .modal-dialog.modal-dialog-centered {
+        transform: translate3d(0, 0, 0) !important;
+      }
+
+      .modal:not(#notifDrawerModal) .modal-content {
+        width: 100% !important;
+        border-radius: 28px 28px 0 0 !important;
+        border: none !important;
+        padding: 16px 20px 95px 20px !important;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
+        max-height: 85vh !important;
+        overflow-y: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── HEADER BANNER ── -->
+  <div class="tx-top-header">
+    <div class="container p-0">
+      <div class="top-brand-bar">
+        <a href="/customer/dashboard" class="btn-back-home">
+          <i class="bi bi-arrow-left"></i> Beranda
+        </a>
+        <h1 class="header-page-title">Transaksi & Status Tagihan</h1>
+        <div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FLOATING CONTAINER ── -->
+  <div class="container tx-floating-container">
+    <% 
+      const paidInvoices = (invoices || []).filter(i => i.status === 'paid');
+      const unpaidInvoices = (invoices || []).filter(i => i.status !== 'paid');
+      const hasUnpaid = unpaidInvoices.length > 0;
+      const latestUnpaid = hasUnpaid ? unpaidInvoices[0] : null;
+
+      const totalUnpaidAmount = unpaidInvoices.reduce((sum, i) => sum + (Number(i.amount != null ? i.amount : (i.package_price != null ? i.package_price : 0)) || 0), 0);
+      const unpaidPeriods = unpaidInvoices.map(i => `${i.period_month}/${i.period_year}`).join(', ');
+      const unpaidCount = unpaidInvoices.length;
+    %>
+
+
+
+    <!-- Summary Stats -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <div class="stat-card-box d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+          <div>
+            <div class="small fw-bold text-muted mb-1">Total Tagihan Belum Dibayar</div>
+            <h3 class="fw-extrabold <%= hasUnpaid ? 'text-danger' : 'text-success' %> mb-1" style="font-size: 24px;">
+              Rp <%= parseInt(totalUnpaidAmount || 0).toLocaleString('id-ID') %>
+            </h3>
+            <div class="small fw-bold <%= hasUnpaid ? 'text-danger' : 'text-success' %>">
+              <i class="bi <%= hasUnpaid ? 'bi-exclamation-triangle-fill' : 'bi-check-circle-fill' %> me-1"></i>
+              <%= hasUnpaid ? `${unpaidCount} Tagihan Menunggu Pembayaran` : 'Semua Tagihan Lunas' %>
+            </div>
+          </div>
+          <% if (hasUnpaid) { %>
+            <button class="btn text-white fw-bold px-3 py-2 rounded-3 shadow-sm d-flex align-items-center gap-2" style="background:#12504b;" onclick="openPaymentModal('<%= latestUnpaid.id %>', '<%= totalUnpaidAmount %>')">
+              <i class="bi bi-qr-code-scan fs-5"></i> Bayar
+            </button>
+          <% } else { %>
+            <div style="width: 46px; height: 46px; border-radius: 14px; background: #dcfce7; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+              <i class="bi bi-shield-check"></i>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="stat-card-box d-flex align-items-center justify-content-between">
+          <div>
+            <div class="small fw-bold text-muted mb-1">Riwayat Transaksi Lunas</div>
+            <h3 class="fw-extrabold text-primary mb-1" style="font-size: 24px; color: #12504b !important;">
+              <%= paidInvoices.length %> Transaksi
+            </h3>
+            <div class="small text-muted fw-bold">
+              <i class="bi bi-clock-history me-1 text-primary" style="color:#12504b !important;"></i> Total Tagihan Lunas Tercatat
+            </div>
+          </div>
+          <div style="width: 46px; height: 46px; border-radius: 14px; background: #e6f2f1; color: #12504b; border: 1px solid #b2dfdb; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+            <i class="bi bi-receipt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Buttons & Title -->
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+      <h5 class="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2" style="font-size: 16px;">
+        <i class="bi bi-list-stars text-primary fs-5" style="color:#12504b !important;"></i> Daftar Invoice & Tagihan
+      </h5>
+
+      <div class="d-flex gap-2">
+        <button type="button" class="tx-filter-btn active" onclick="filterInvoices('all', this)">Semua (<%= (invoices || []).length %>)</button>
+        <button type="button" class="tx-filter-btn" onclick="filterInvoices('unpaid', this)">Belum Bayar (<%= unpaidCount %>)</button>
+        <button type="button" class="tx-filter-btn" onclick="filterInvoices('paid', this)">Lunas (<%= paidInvoices.length %>)</button>
+      </div>
+    </div>
+
+    <!-- List Invoices -->
+    <div class="mb-4">
+      <% if (invoices && invoices.length > 0) { %>
+        <div class="d-flex flex-column gap-3">
+          <% invoices.forEach(inv => { %>
+            <% 
+              const itemAmt = inv.amount != null ? inv.amount : (inv.package_price != null ? inv.package_price : 0); 
+              const isPaid = (inv.status === 'paid' || inv.status === 'PAID');
+              const mNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+              const mIndex = Number(inv.period_month || inv.month || (new Date().getMonth() + 1)) - 1;
+              const monthStr = (mIndex >= 0 && mIndex < 12) ? mNames[mIndex] : (inv.period_month || '');
+              const yearStr = inv.period_year || inv.year || new Date().getFullYear();
+              const periodTitle = `Tagihan ${monthStr} ${yearStr}`.trim();
+            %>
+            <div class="invoice-card-redesign invoice-row-item" data-status="<%= inv.status %>">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span style="font-size: 13px; font-weight: 700; color: #64748b;">
+                  <%= periodTitle %>
+                </span>
+                <span class="badge" style="font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; <%= isPaid ? 'background:#ecfdf5; color:#059669;' : 'background:#fef2f2; color:#dc2626;' %>">
+                  <%= isPaid ? 'Sudah dibayar' : 'Belum dibayar' %>
+                </span>
+              </div>
+
+              <div class="fw-bold text-muted mb-1" style="font-size: 13px;">
+                <%= inv.package_name || 'MyRepublic Fiber' %>
+              </div>
+
+              <div class="fw-extrabold mb-3" style="font-size: 24px; color: #12504b;">
+                Rp <%= parseInt(itemAmt || 0).toLocaleString('id-ID') %>
+              </div>
+
+              <% if (!isPaid) { %>
+                <button class="btn btn-primary w-100 fw-bold py-2" onclick="openPaymentModal('<%= inv.id %>', '<%= itemAmt %>')" style="border-radius: 12px; font-size: 14px; background:#12504b; border:none; box-shadow:0 4px 14px rgba(18, 80, 75, 0.25);">
+                  <i class="bi bi-qr-code-scan me-1"></i> BAYAR SEKARANG (QRIS / VA)
+                </button>
+              <% } else { %>
+                <div class="d-flex gap-2 flex-wrap">
+                  <a href="/customer/invoice/<%= inv.id %>/print-thermal" class="btn btn-outline-success btn-sm flex-fill fw-bold py-2" target="_blank" style="border-radius: 10px;">
+                    <i class="bi bi-receipt"></i> Thermal
+                  </a>
+                  <a href="/customer/invoice/<%= inv.id %>/print" class="btn btn-outline-primary btn-sm flex-fill fw-bold py-2" target="_blank" style="border-radius: 10px; color:#12504b; border-color:#12504b;">
+                    <i class="bi bi-printer"></i> Faktur
+                  </a>
+                  <a href="/customer/invoice/<%= inv.id %>/pdf" class="btn btn-outline-secondary btn-sm flex-fill fw-bold py-2" target="_blank" style="border-radius: 10px;">
+                    <i class="bi bi-file-earmark-pdf"></i> PDF
+                  </a>
+                </div>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="text-center text-muted py-4 invoice-card-redesign">Belum ada data tagihan tercatat di sistem.</div>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Payment Gateway Modal -->
+  <div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="dock-sheet-handle"></div>
+        <div class="d-flex align-items-center justify-content-between mb-3 px-1">
+          <h6 class="fw-extrabold text-dark mb-0 d-flex align-items-center gap-2" style="font-size:16px;">
+            <i class="bi bi-credit-card-2-front text-success fs-5"></i> Pilihan Metode Pembayaran
+          </h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" style="font-size:12px;"></button>
+        </div>
+        <div class="modal-body p-2">
+          <div class="text-center mb-4 p-3 rounded-4" style="background:#e6f2f1; border:1px solid #b2dfdb;">
+            <div class="small fw-bold text-muted mb-1">Total Tagihan Harus Dibayar</div>
+            <h2 class="fw-extrabold mb-0" style="font-size:26px; color:#12504b;" id="pay_amount_text">Rp 0</h2>
+          </div>
+          <div class="d-grid gap-3">
+            <% if (typeof paymentChannels !=='undefined' && paymentChannels && paymentChannels.length > 0) { %>
+              <% paymentChannels.forEach(ch => { %>
+                <button class="btn btn-outline-purple p-3 text-start d-flex align-items-center justify-content-between"
+                  onclick="submitPayment('<%= ch.code %>')"
+                  style="border-radius:14px; border:1px solid #b2dfdb; background:#ffffff;">
+                  <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-qr-code-scan text-primary fs-4" style="color:#12504b !important;"></i>
+                    <div>
+                      <div class="fw-bold text-dark"><%= ch.name %></div>
+                      <div class="small text-muted"><%= ch.group || 'Metode Pembayaran Online' %></div>
+                    </div>
+                  </div>
+                  <i class="bi bi-chevron-right text-primary" style="color:#12504b !important;"></i>
+                </button>
+              <% }) %>
+            <% } else { %>
+              <button class="btn p-3 text-start d-flex align-items-center justify-content-between"
+                onclick="submitPayment('qris')"
+                style="border-radius:16px; border:2px solid #12504b; background:#e6f2f1;">
+                <div class="d-flex align-items-center gap-3">
+                  <div style="width:44px; height:44px; border-radius:12px; background:#ffffff; display:flex; align-items:center; justify-content:center; color:#12504b; font-size:22px;">
+                    <i class="bi bi-qr-code-scan"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-dark" style="font-size:15px;">QRIS Instant (Semua E-Wallet)</div>
+                    <div class="small text-muted">DANA, GoPay, OVO, ShopeePay, Mobile Banking</div>
+                  </div>
+                </div>
+                <i class="bi bi-chevron-right text-primary fs-5" style="color:#12504b !important;"></i>
+              </button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('partials/customer_bottom_nav', { isLoggedIn: true, activeNav: 'billing' }) %>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let activePayInvoiceId = null;
+
+    function openPaymentModal(invoiceId, amount) {
+      activePayInvoiceId = invoiceId;
+      const elText = document.getElementById('pay_amount_text');
+      if (elText) {
+        elText.innerText = 'Rp ' + parseInt(amount || 0).toLocaleString('id-ID');
+      }
+      const modalEl = document.getElementById('paymentModal');
+      if (modalEl && typeof bootstrap !== 'undefined') {
+        const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        modal.show();
+      }
+    }
+
+    function submitPayment(method) {
+      if (!activePayInvoiceId) {
+        alert('Invoice tidak ditemukan.');
+        return;
+      }
+      window.location.href = `/customer/payment/create/${activePayInvoiceId}?method=${method}`;
+    }
+
+    function filterInvoices(type, btn) {
+      document.querySelectorAll('.tx-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      document.querySelectorAll('.invoice-row-item').forEach(item => {
+        const status = item.getAttribute('data-status');
+        if (type === 'all') {
+          item.style.display = '';
+        } else if (type === 'unpaid') {
+          item.style.display = (status !== 'paid') ? '' : 'none';
+        } else if (type === 'paid') {
+          item.style.display = (status === 'paid') ? '' : 'none';
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('action') === 'pay' || urlParams.get('pay') === '1') {
+        const invId = urlParams.get('invoice_id') || '<%= latestUnpaid ? latestUnpaid.id : "" %>';
+        const amt = urlParams.get('amount') || '<%= totalUnpaidAmount %>';
+        if (invId || amt) {
+          setTimeout(() => {
+            openPaymentModal(invId, amt);
+          }, 350);
+        }
+      }
+    });
+
+    function openNotifDrawer() {
+      const el = document.getElementById('notifDrawerModal');
+      if (el && typeof bootstrap !== 'undefined') {
+        const m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+        m.show();
+      }
+    }
+  </script>
+</body>
+</html>
