@@ -145,7 +145,7 @@ function isSuspendedPortalExemptPath(reqPath) {
   ) return true;
   if (p.startsWith('/public/')) return true;
   if (p.startsWith('/payment/')) return true;
-  const staticPages = ['/tos', '/privacy', '/about', '/contact', '/check-billing', '/voucher'];
+  const staticPages = ['/tos', '/privacy', '/about', '/contact', '/check-billing', '/voucher', '/transaction', '/transactions', '/account', '/profile', '/account/info', '/account-info', '/profile-info', '/device', '/modem', '/ont', '/speedtest', '/speed-test', '/packages', '/package', '/help', '/support', '/tickets'];
   if (staticPages.includes(p)) return true;
   return false;
 }
