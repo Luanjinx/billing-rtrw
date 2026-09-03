@@ -1027,7 +1027,7 @@ app.get('/home', (req, res) => {
 
 // Redirect root ke portal pelanggan
 app.get('/', (req, res) => {
-  res.redirect('/customer/login');
+  res.redirect('/customer/home');
 });
 
 // Alias singkat: /login → /customer/login
