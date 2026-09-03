@@ -133,7 +133,7 @@
 
     .btn-wa-support {
       background: #ecfdf5;
-      color: #047857;
+      color: #047857 !important;
       border: 1px solid #a7f3d0;
       font-weight: 800;
       font-size: 13px;
@@ -146,11 +146,13 @@
       width: 100%;
       text-decoration: none !important;
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
     .btn-wa-support:hover {
       background: #d1fae5;
-      color: #065f46;
+      color: #065f46 !important;
+      transform: translateY(-1px);
     }
 
     /* ── STATS BOXES ── */
@@ -417,9 +419,20 @@
           </button>
         </div>
         <div class="col-6">
-          <% const waNumber = (typeof settings !== 'undefined' && settings.company_phone) ? settings.company_phone.replace(/\D/g, '') : ''; %>
-          <a href="https://wa.me/<%= waNumber %>?text=<%= encodeURIComponent('Halo Admin Support, saya ingin bertanya seputar kendala internet pelanggan.') %>" target="_blank" class="btn-wa-support">
-            <i class="bi bi-whatsapp fs-5"></i> Live Chat WA
+          <% 
+            let rawPhone = (typeof settings !== 'undefined' && settings) ? (settings.company_phone || (settings.whatsapp_admin_numbers && settings.whatsapp_admin_numbers.length ? settings.whatsapp_admin_numbers[0] : '')) : '';
+            let waNumber = String(rawPhone || '').replace(/\D/g, '');
+            if (waNumber.startsWith('0')) {
+              waNumber = '62' + waNumber.slice(1);
+            }
+            const waMsg = encodeURIComponent('Halo Admin Support, saya pelanggan ' + (profile ? profile.name : '') + ' ingin berkonsultasi mengenai kendala internet.');
+          %>
+          <a href="<%= waNumber ? 'https://wa.me/' + waNumber + '?text=' + waMsg : '#' %>" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="btn-wa-support" 
+             onclick="if(!'<%= waNumber %>'){ alert('Nomor WhatsApp Admin belum dikonfigurasi.'); return false; }">
+            <i class="bi bi-whatsapp fs-5 text-success"></i> Live Chat WA
           </a>
         </div>
       </div>
