@@ -17,7 +17,7 @@
   
   <link rel="stylesheet" href="/css/style.css">
   <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#12504b">
+  <meta name="theme-color" content="#317fe4">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -26,15 +26,15 @@
 
   <style>
     :root {
-      --primary: #12504b;
-      --primary-dark: #0e3f3b;
-      --primary-light: #e6f2f1;
-      --primary-border: #b2dfdb;
+      --primary: #317fe4;
+      --primary-dark: #1f5eb1;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
       --accent: #10b981;
       --bg-body: #f8fafc;
       --bg-card: #ffffff;
       --border-color: #e2e8f0;
-      --text-main: #0f2d2a;
+      --text-main: #0f172a;
       --text-muted-custom: #64748b;
     }
 
@@ -141,7 +141,7 @@
     /* ── HERO SECTION ── */
     .hero-section {
       padding: 70px 0 90px;
-      background: linear-gradient(180deg, #e6f2f1 0%, #f8fafc 100%);
+      background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
       position: relative;
     }
 
@@ -157,7 +157,7 @@
       font-size: 0.88rem;
       font-weight: 800;
       margin-bottom: 22px;
-      box-shadow: 0 4px 14px rgba(18, 80, 75, 0.08);
+      box-shadow: 0 4px 14px rgba(49, 127, 228, 0.08);
     }
 
     .hero-title {
@@ -165,13 +165,13 @@
       font-weight: 800;
       line-height: 1.18;
       margin-bottom: 20px;
-      color: #0f2d2a;
+      color: #0f172a;
       letter-spacing: -0.5px;
     }
 
     .hero-title span {
       color: var(--primary);
-      background: linear-gradient(135deg, #12504b 0%, #12a498 100%);
+      background: linear-gradient(135deg, #317fe4 0%, #2563eb 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -181,6 +181,58 @@
       color: #475569;
       line-height: 1.7;
       margin-bottom: 36px;
+    }
+
+    /* Hero Image & Visual Card */
+    .hero-visual-card {
+      position: relative;
+      background: #ffffff;
+      border: 1px solid var(--primary-border);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 20px 50px rgba(49, 127, 228, 0.14);
+      animation: floatHero 5s ease-in-out infinite;
+    }
+
+    @keyframes floatHero {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero-visual-img {
+      width: 100%;
+      height: auto;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 20px;
+      display: block;
+    }
+
+    .hero-floating-badge {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--primary-border);
+      padding: 10px 16px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .hero-floating-badge-top {
+      top: -16px;
+      right: 20px;
+    }
+
+    .hero-floating-badge-bottom {
+      bottom: -16px;
+      left: 20px;
     }
 
     /* ── HERO STATS ── */
@@ -204,7 +256,7 @@
     .stat-item:hover {
       border-color: var(--primary-border);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(18, 80, 75, 0.08);
+      box-shadow: 0 6px 20px rgba(49, 127, 228, 0.08);
     }
 
     .stat-number {
@@ -242,7 +294,7 @@
     .section-title {
       font-size: 2.3rem;
       font-weight: 800;
-      color: #0f2d2a;
+      color: #0f172a;
       margin-bottom: 16px;
     }
 
@@ -298,7 +350,7 @@
     .pkg-name {
       font-size: 1.5rem;
       font-weight: 800;
-      color: #0f2d2a;
+      color: #0f172a;
       margin-bottom: 8px;
     }
 
@@ -340,7 +392,7 @@
     .btn-pkg-action {
       background: #f8fafc;
       border: 1px solid #cbd5e1;
-      color: #0f2d2a;
+      color: #0f172a;
       border-radius: 14px;
       padding: 13px;
       font-weight: 700;
@@ -353,7 +405,7 @@
       background: var(--primary);
       border-color: var(--primary);
       color: #ffffff;
-      box-shadow: 0 8px 22px rgba(18, 80, 75, 0.3);
+      box-shadow: 0 8px 22px rgba(49, 127, 228, 0.3);
     }
 
     /* ── FEATURE CARDS ── */
@@ -381,7 +433,7 @@
     .feature-title {
       font-size: 1.2rem;
       font-weight: 800;
-      color: #0f2d2a;
+      color: #0f172a;
       margin-bottom: 10px;
     }
 
@@ -405,7 +457,7 @@
     }
 
     .info-card h5 {
-      color: #0f2d2a !important;
+      color: #0f172a !important;
       font-weight: 800;
       font-size: 1.1rem;
     }
@@ -419,7 +471,7 @@
     .info-card-link:hover .info-card {
       transform: translateY(-4px);
       border-color: var(--primary-border);
-      box-shadow: 0 12px 30px rgba(18, 80, 75, 0.12);
+      box-shadow: 0 12px 30px rgba(49, 127, 228, 0.12);
     }
 
     .info-icon {
@@ -438,7 +490,7 @@
 
     /* ── FOOTER ── */
     .site-footer {
-      background: #0f2d2a;
+      background: #0f172a;
       color: #ffffff;
       padding: 65px 0 30px;
     }
@@ -540,7 +592,6 @@
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="/customer/home">
         <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" alt="Logo" onerror="this.style.display='none'">
-        <span class="fw-extrabold fs-5 text-dark"><%= settings.company_header || 'Portal ISP' %></span>
       </a>
 
       <button class="navbar-toggler border-0 text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
@@ -585,9 +636,10 @@
   <!-- Hero Section -->
   <section class="hero-section" id="hero">
     <div class="container">
-      <div class="row align-items-center">
+      <div class="row align-items-center g-5">
 
-        <div class="col-lg-8 mx-auto text-center">
+        <!-- Left Column: Value Proposition -->
+        <div class="col-lg-6">
           <div class="hero-badge">
             <i class="bi bi-lightning-charge-fill text-warning"></i>
             <span>Internet Fiber Optic Super Cepat & Unlimited</span>
@@ -597,15 +649,15 @@
             Nikmati Koneksi Internet <span>Super Cepat</span> Tanpa Batas Kuota
           </h1>
 
-          <p class="hero-subtitle mx-auto" style="max-width: 680px;">
+          <p class="hero-subtitle">
             Selamat datang di portal resmi <strong><%= settings.company_header %></strong>. Kami menyediakan jaringan internet ultra cepat, stabil, dan terjangkau untuk kebutuhan rumah tangga, bisnis, gaming, hingga hiburan keluarga Anda.
           </p>
 
-          <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-            <a href="/customer/login" class="btn btn-primary btn-lg rounded-3 fw-bold px-4 py-3 shadow-lg d-inline-flex align-items-center justify-content-center" style="background: #12504b; border: none; min-width: 240px;">
+          <div class="d-flex flex-wrap gap-3 mb-4">
+            <a href="/customer/login" class="btn btn-primary btn-lg rounded-3 fw-bold px-4 py-3 shadow-lg d-inline-flex align-items-center justify-content-center" style="background: var(--primary); border: none; min-width: 220px;">
               <i class="bi bi-box-arrow-in-right me-2 fs-5"></i> Masuk Portal Pelanggan
             </a>
-            <a href="/customer/register" class="btn btn-outline-dark btn-lg rounded-3 fw-bold px-4 py-3 d-inline-flex align-items-center justify-content-center" style="background: #ffffff; border-color: #cbd5e1; min-width: 240px;">
+            <a href="/customer/register" class="btn btn-outline-dark btn-lg rounded-3 fw-bold px-4 py-3 d-inline-flex align-items-center justify-content-center" style="background: #ffffff; border-color: #cbd5e1; min-width: 220px;">
               <i class="bi bi-person-plus-fill me-2 fs-5 text-primary"></i> Daftar Pasang Baru
             </a>
           </div>
@@ -627,6 +679,36 @@
             <div class="stat-item">
               <div class="stat-number"><i class="bi bi-headset text-primary me-1"></i> 24/7</div>
               <div class="stat-label">Bantuan CS</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Hero Visual Image Card -->
+        <div class="col-lg-6">
+          <div class="hero-visual-card">
+            <!-- Floating Badge Top -->
+            <div class="hero-floating-badge hero-floating-badge-top">
+              <div class="bg-success rounded-circle p-1 d-flex align-items-center justify-content-center" style="width: 24px; height: 24px;">
+                <i class="bi bi-check-lg text-white" style="font-size: 14px;"></i>
+              </div>
+              <div>
+                <div style="font-size: 11px; color: #64748b; font-weight: 700; line-height: 1;">Status Layanan</div>
+                <div style="font-size: 13px; color: #0f172a; font-weight: 800;">100% Online & Stabil</div>
+              </div>
+            </div>
+
+            <!-- Main Image -->
+            <img src="/img/hero_visual.png" alt="Fiber Optic Network Visual" class="hero-visual-img" onerror="this.src='/img/logo.png'">
+
+            <!-- Floating Badge Bottom -->
+            <div class="hero-floating-badge hero-floating-badge-bottom">
+              <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                <i class="bi bi-speedometer2 fs-5"></i>
+              </div>
+              <div>
+                <div style="font-size: 11px; color: #64748b; font-weight: 700; line-height: 1;">Kapasitas Jaringan</div>
+                <div style="font-size: 13px; color: #317fe4; font-weight: 800;">Ultra Fast 100 Mbps+</div>
+              </div>
             </div>
           </div>
         </div>
@@ -921,7 +1003,6 @@
         <div class="col-lg-4">
           <div class="footer-brand d-flex align-items-center gap-2 mb-3">
             <img src="/img/logo.png" alt="Logo" onerror="this.style.display='none'">
-            <span class="fw-bold fs-5 text-white"><%= settings.company_header %></span>
           </div>
           <p class="small mb-3" style="color: #cbd5e1; max-width: 320px;">
             Penyedia layanan internet fiber optic handal dan terpercaya untuk memenuhi kebutuhan konektivitas digital Anda.
