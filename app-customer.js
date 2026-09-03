@@ -1020,6 +1020,11 @@ app.get('/health', (req, res) => {
     });
 });
 
+// Alias singkat: /home → /customer/home
+app.get('/home', (req, res) => {
+  res.redirect('/customer/home');
+});
+
 // Redirect root ke portal pelanggan
 app.get('/', (req, res) => {
   res.redirect('/customer/login');
