@@ -183,26 +183,97 @@
       margin-bottom: 36px;
     }
 
+    /* Hero Action Buttons */
+    .hero-action-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      width: 100%;
+    }
+
+    .btn-hero-primary {
+      background: var(--primary);
+      color: #ffffff !important;
+      border: none;
+      border-radius: 12px;
+      height: 48px;
+      padding: 0 24px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 22px rgba(49, 127, 228, 0.25);
+      transition: all 0.25s ease;
+      text-decoration: none !important;
+    }
+
+    .btn-hero-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(49, 127, 228, 0.38);
+      color: #ffffff !important;
+    }
+
+    .btn-hero-secondary {
+      background: #ffffff;
+      color: #0f172a !important;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 12px;
+      height: 48px;
+      padding: 0 24px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      text-decoration: none !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .btn-hero-secondary .icon-pasang-baru {
+      color: var(--primary);
+      transition: color 0.25s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(49, 127, 228, 0.15);
+    }
+
+    .btn-hero-secondary:hover .icon-pasang-baru {
+      color: var(--primary);
+    }
+
     /* Hero Image & Visual Card */
     .hero-visual-card {
       position: relative;
       background: #ffffff;
-      border: 1px solid var(--primary-border);
+      border: 1.5px solid var(--primary-border);
       border-radius: 28px;
-      padding: 16px;
+      padding: 14px;
       box-shadow: 0 20px 50px rgba(49, 127, 228, 0.14);
       animation: floatHero 5s ease-in-out infinite;
+      max-width: 520px;
+      margin: 0 auto;
     }
 
     @keyframes floatHero {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
 
     .hero-visual-img {
       width: 100%;
       height: auto;
-      max-height: 380px;
+      max-height: 360px;
       object-fit: cover;
       border-radius: 20px;
       display: block;
@@ -211,28 +282,29 @@
     .hero-floating-badge {
       position: absolute;
       background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--primary-border);
-      padding: 10px 16px;
+      padding: 8px 14px;
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 800;
       color: #0f172a;
+      z-index: 5;
     }
 
     .hero-floating-badge-top {
-      top: -16px;
-      right: 20px;
+      top: -14px;
+      right: 16px;
     }
 
     .hero-floating-badge-bottom {
-      bottom: -16px;
-      left: 20px;
+      bottom: -14px;
+      left: 16px;
     }
 
     /* ── HERO STATS ── */
@@ -560,6 +632,37 @@
     }
 
     @media (max-width: 575.98px) {
+      .hero-action-btns {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+      .btn-hero-primary, .btn-hero-secondary {
+        width: 100% !important;
+        height: 48px !important;
+        padding: 0 16px !important;
+        font-size: 0.92rem !important;
+        border-radius: 12px !important;
+        justify-content: center !important;
+      }
+      .hero-visual-card {
+        padding: 10px;
+        border-radius: 20px;
+        margin-top: 15px;
+      }
+      .hero-floating-badge {
+        padding: 6px 12px;
+        font-size: 0.76rem;
+      }
+      .hero-floating-badge-top {
+        top: -10px;
+        right: 10px;
+      }
+      .hero-floating-badge-bottom {
+        bottom: -10px;
+        left: 10px;
+      }
       .hero-title {
         font-size: 1.85rem;
         line-height: 1.25;
@@ -653,12 +756,14 @@
             Selamat datang di portal resmi <strong><%= settings.company_header %></strong>. Kami menyediakan jaringan internet ultra cepat, stabil, dan terjangkau untuk kebutuhan rumah tangga, bisnis, gaming, hingga hiburan keluarga Anda.
           </p>
 
-          <div class="d-flex flex-wrap gap-3 mb-4">
-            <a href="/customer/login" class="btn btn-primary btn-lg rounded-3 fw-bold px-4 py-3 shadow-lg d-inline-flex align-items-center justify-content-center" style="background: var(--primary); border: none; min-width: 220px;">
-              <i class="bi bi-box-arrow-in-right me-2 fs-5"></i> Masuk Portal Pelanggan
+          <div class="hero-action-btns">
+            <a href="/customer/login" class="btn-hero-primary">
+              <i class="bi bi-box-arrow-in-right fs-5"></i>
+              <span>Masuk Portal Pelanggan</span>
             </a>
-            <a href="/customer/register" class="btn btn-outline-dark btn-lg rounded-3 fw-bold px-4 py-3 d-inline-flex align-items-center justify-content-center" style="background: #ffffff; border-color: #cbd5e1; min-width: 220px;">
-              <i class="bi bi-person-plus-fill me-2 fs-5 text-primary"></i> Daftar Pasang Baru
+            <a href="/customer/register" class="btn-hero-secondary">
+              <i class="bi bi-person-plus-fill fs-5 icon-pasang-baru"></i>
+              <span>Daftar Pasang Baru</span>
             </a>
           </div>
 
