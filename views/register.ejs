@@ -85,15 +85,21 @@
     }
 
     .brand-header-left {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
     }
 
-    .brand-header-left img {
-      height: 42px;
-      width: auto;
-      object-fit: contain;
+    .brand-header-left img,
+    img[alt="Logo"] {
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      height: 52px !important;
+      max-width: 100% !important;
+      width: auto !important;
+      object-fit: contain !important;
+      display: block;
     }
 
     .hero-welcome-box {
@@ -461,7 +467,7 @@
       <!-- Top Header Brand (Clickable to /customer/home) -->
       <a href="/customer/home" class="brand-header-left text-decoration-none">
         <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" 
-             alt="Logo" onerror="this.style.display='none'">
+             alt="Logo" style="height: 50px; width: auto; max-width: 100%; object-fit: contain; background: transparent; border: none; box-shadow: none;" onerror="this.style.display='none'">
       </a>
 
       <!-- Hero Welcome Message -->
@@ -508,7 +514,7 @@
         <div class="text-center mb-3 d-lg-none">
           <a href="/customer/home" class="d-inline-flex align-items-center justify-content-center text-decoration-none">
             <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" 
-                 alt="Logo" style="height: 48px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
+                 alt="Logo" style="height: 48px; width: auto; max-width: 100%; object-fit: contain; background: transparent; border: none; box-shadow: none;" onerror="this.style.display='none'">
           </a>
         </div>
 
