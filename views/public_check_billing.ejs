@@ -1,143 +1,654 @@
 <!DOCTYPE html>
 <html lang="<%= lang || 'id' %>">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cek Tagihan | <%= settings.company_header || 'Portal ISP' %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title><%= settings.company_header || 'Portal ISP' %> | Cek Tagihan Pelanggan</title>
+
+  <!-- Preconnect & Fonts -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#317fe4">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="/img/logo.png">
   <link rel="icon" href="/img/logo.png">
+
   <style>
-    body{
-      background: radial-gradient(1200px 600px at 10% 0%, rgba(99, 102, 241, 0.22) 0%, rgba(15, 23, 42, 0) 60%),
-        radial-gradient(900px 450px at 100% 0%, rgba(59, 130, 246, 0.18) 0%, rgba(15, 23, 42, 0) 55%),
-        #0f172a;
-      color:#e2e8f0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    :root {
+      --primary-teal: #317fe4;
+      --primary-dark: #1f5eb1;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --accent-green: #10b981;
+      --bg-right: #f4f8fb;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      background-color: var(--bg-right);
+      color: var(--text-dark);
     }
-    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
-    .cardx{background: rgba(30, 41, 59, 0.92);backdrop-filter: blur(10px);border: 1px solid #334155;border-radius: 20px;box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);overflow:hidden;max-width: 720px;width:100%}
-    .head{background: linear-gradient(135deg, rgba(99, 102, 241, 0.28) 0%, rgba(59, 130, 246, 0.2) 100%);padding:22px 20px;border-bottom:1px solid rgba(148,163,184,.18)}
-    .body{padding:22px 20px}
-    .form-control,.form-select{background: rgba(15, 23, 42, 0.6);border: 1px solid #334155;color:#e2e8f0;border-radius: 12px}
-    .form-control:focus,.form-select:focus{background: rgba(15, 23, 42, 0.75);border-color: rgba(99, 102, 241, 0.85);box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);color:#e2e8f0}
-    .muted{color: rgba(148, 163, 184, 0.9)}
-    .tbl{width:100%;border-collapse:separate;border-spacing:0}
-    .tbl th,.tbl td{padding:10px 12px;border-bottom:1px solid rgba(148,163,184,.18);vertical-align:middle}
-    .tbl thead th{font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:rgba(148,163,184,.95)}
-    .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid rgba(148,163,184,.18)}
-    .pill-u{background: rgba(248, 81, 73, .12);color:#fca5a5;border-color: rgba(248, 81, 73, .28)}
-    .pill-p{background: rgba(63, 185, 80, .12);color:#86efac;border-color: rgba(63, 185, 80, .28)}
-    .btnx{border-radius:12px;font-weight:700}
-    .btn-primary{background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);border:none}
-    a{color:#a5b4fc}
-    .payment-methods-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-    @media (max-width: 390px){.payment-methods-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    .pay-scroll{max-height: 220px; overflow:auto; padding-right: 4px}
-    .pm-radio{position:absolute;opacity:0;pointer-events:none}
-    .pay-method-item{display:flex;align-items:center;gap:12px;padding:12px 12px;background: rgba(15, 23, 42, 0.55);border: 1px solid rgba(148, 163, 184, 0.16);border-radius: 14px;cursor:pointer;transition: all .2s ease}
-    .pay-method-item:hover{background: rgba(15, 23, 42, 0.75);border-color: rgba(99, 102, 241, 0.7);transform: translateY(-1px);box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35)}
-    .pm-radio:checked + .pay-method-item{background: rgba(99, 102, 241, 0.12);border-color: rgba(99, 102, 241, 0.85);box-shadow: 0 18px 34px rgba(99, 102, 241, 0.12)}
-    .p-icon{width:42px;height:42px;background: rgba(30, 41, 59, 0.9);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#6366f1;box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);overflow:hidden;flex:0 0 auto}
-    .p-logo{width:100%;height:100%;object-fit:contain;padding:7px;background: rgba(255, 255, 255, 0.95)}
-    .p-badge{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;letter-spacing:.2px;text-transform:uppercase}
-    .pb-qris{background: linear-gradient(135deg, rgba(99,102,241,0.95), rgba(139,92,246,0.95));color:#0b1220}
-    .pb-dana{background: linear-gradient(135deg, rgba(59,130,246,0.95), rgba(14,165,233,0.95));color:#0b1220}
-    .pb-ovo{background: linear-gradient(135deg, rgba(168,85,247,0.95), rgba(99,102,241,0.95));color:#0b1220}
-    .pb-shopeepay{background: linear-gradient(135deg, rgba(249,115,22,0.95), rgba(244,63,94,0.95));color:#0b1220}
-    .pb-linkaja{background: linear-gradient(135deg, rgba(239,68,68,0.95), rgba(244,63,94,0.95));color:#0b1220}
-    .pb-gopay{background: linear-gradient(135deg, rgba(34,197,94,0.95), rgba(16,185,129,0.95));color:#0b1220}
-    .pb-bank{background: linear-gradient(135deg, rgba(15,23,42,0.82), rgba(30,41,59,0.92));color:#e2e8f0}
-    .p-info{display:flex;flex-direction:column;min-width:0}
-    .p-name{font-size:14px;font-weight:700;color:#f8fafc}
-    .p-sub{font-size:12px;color: rgba(148, 163, 184, 0.9);display:flex;flex-wrap:wrap;gap:6px}
-    .p-chip{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;border:1px solid rgba(148, 163, 184, 0.22);background: rgba(15, 23, 42, 0.35);color: rgba(226, 232, 240, 0.92);font-size:11px;font-weight:700;line-height:1.4;white-space:nowrap}
-    @media (max-width: 576px){
-      .pay-method-item{flex-direction:column;align-items:flex-start;gap:10px;padding:12px}
-      .p-sub{display:none}
-      .p-name{font-size:13px}
-      .p-icon{width:42px;height:42px;font-size:20px}
+
+    .split-container {
+      min-height: 100vh;
+      display: flex;
+      width: 100%;
     }
-    @media (max-width: 576px){.wrap{padding:10px}.cardx{border-radius:15px}.body{padding:18px 14px}}
+
+    /* ── LEFT PANEL (DARK TEAL BRAND SIDE - DESKTOP VIEW) ── */
+    .left-panel {
+      flex: 1;
+      background: linear-gradient(145deg, #317fe4 0%, #1a4f9c 100%);
+      color: #ffffff;
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(49, 127, 228, 0) 70%);
+      pointer-events: none;
+    }
+
+    .brand-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-header-left img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .hero-welcome-box {
+      max-width: 500px;
+      margin: auto 0;
+    }
+
+    .hero-welcome-title {
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 18px;
+      color: #ffffff;
+      letter-spacing: -0.8px;
+    }
+
+    .hero-welcome-desc {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    /* Testimonial Widget Box */
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 480px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .testimonial-headline {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .testimonial-quote {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.55;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-user {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .user-avatar-pill {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .user-info-name {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .user-info-role {
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .rating-stars {
+      color: #fbbf24;
+      font-size: 0.9rem;
+      display: flex;
+      gap: 3px;
+    }
+
+    /* ── RIGHT PANEL (LIGHT LOGIN SIDE) ── */
+    .right-panel {
+      flex: 1;
+      background-color: var(--bg-right);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .login-form-wrapper {
+      width: 100%;
+      max-width: 580px;
+    }
+
+    /* Top Progress Pill */
+    .top-progress-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary-teal);
+      transition: all 0.3s ease;
+    }
+
+    .progress-dot.small-dot {
+      width: 7px;
+      height: 7px;
+    }
+
+    .progress-dot.active {
+      background: var(--primary-teal);
+      box-shadow: 0 0 0 3px rgba(49, 127, 228, 0.2);
+      animation: pulseGreenDot 2s infinite ease-in-out;
+    }
+
+    .progress-dot.inactive {
+      background: #cbd5e1;
+      opacity: 0.6;
+    }
+
+    .progress-bar-segment {
+      height: 4px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .progress-bar-segment.active {
+      width: 36px;
+      background: linear-gradient(90deg, #317fe4 0%, #2563eb 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar-segment.active::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+      animation: shimmerPill 2.5s infinite;
+    }
+
+    .progress-bar-segment.inactive {
+      width: 24px;
+      background: #cbd5e1;
+      opacity: 0.5;
+    }
+
+    @keyframes pulseGreenDot {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(49, 127, 228, 0.4); }
+      50% { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(49, 127, 228, 0); }
+    }
+
+    @keyframes shimmerPill {
+      0% { left: -100%; }
+      60%, 100% { left: 100%; }
+    }
+
+    .login-main-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--primary-teal);
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .login-main-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Form Inputs */
+    .field-label {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .custom-input-box {
+      width: 100%;
+      height: 52px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 14px;
+      padding: 0 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .custom-input-box:focus {
+      outline: none;
+      border-color: var(--primary-teal);
+      box-shadow: 0 0 0 0.25rem rgba(49, 127, 228, 0.15);
+      background: #ffffff;
+    }
+
+    .btn-masuk-primary {
+      width: 100%;
+      height: 52px;
+      background: var(--primary-teal);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(49, 127, 228, 0.25);
+      margin-top: 20px;
+    }
+
+    .btn-masuk-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(49, 127, 228, 0.38);
+      color: #ffffff;
+    }
+
+    /* Table & Payment Cards */
+    .custom-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .custom-table th {
+      background: #ffffff;
+      padding: 12px 16px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .custom-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+      font-size: 0.9rem;
+    }
+
+    .pay-methods-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .pm-radio {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pay-method-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pay-method-card:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      transform: translateY(-2px);
+    }
+
+    .pm-radio:checked + .pay-method-card {
+      background: var(--primary-light);
+      border-color: var(--primary-teal);
+      box-shadow: 0 4px 16px rgba(49, 127, 228, 0.15);
+    }
+
+    .pay-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--primary-teal);
+      flex-shrink: 0;
+    }
+
+    .pay-name {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .pay-fee-chip {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 700;
+    }
+
+    /* Quick Action Tools Bar */
+    .quick-access-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .quick-access-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px 8px;
+      text-decoration: none !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .quick-access-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      transform: translateY(-2px);
+    }
+
+    .quick-access-icon {
+      font-size: 1.25rem;
+    }
+
+    .quick-access-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .register-footer-link {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .register-footer-link a {
+      color: var(--primary-teal);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .register-footer-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 991.98px) {
+      .left-panel {
+        display: none;
+      }
+      .right-panel {
+        padding: 36px 18px;
+        min-height: 100vh;
+      }
+      .login-main-title {
+        font-size: 1.85rem;
+      }
+      .quick-access-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pay-methods-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="cardx">
-      <div class="head">
-        <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
-          <div>
-            <div class="fw-bold" style="font-size:18px">Cek Tagihan</div>
-            <div class="muted small"><%= settings.company_header || 'Portal ISP' %></div>
+
+  <div class="split-container">
+
+    <!-- ── LEFT PANEL (BRAND SIDE - DESKTOP VIEW) ── -->
+    <div class="left-panel">
+
+      <!-- Top Header Brand (Clickable to /customer/home) -->
+      <a href="/customer/home" class="brand-header-left text-decoration-none">
+        <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" 
+             alt="Logo" onerror="this.style.display='none'">
+      </a>
+
+      <!-- Hero Welcome Message -->
+      <div class="hero-welcome-box">
+        <h1 class="hero-welcome-title">Cek Tagihan.</h1>
+        <p class="hero-welcome-desc">
+          Periksa rincian tagihan bulanan internet Anda dan lakukan pembayaran instan secara mudah, aman, dan tanpa hambatan.
+        </p>
+      </div>
+
+      <!-- Testimonial / Quality Guarantee Card -->
+      <div class="testimonial-card">
+        <div class="testimonial-headline">Guaranteed Quality & Uptime</div>
+        <div class="testimonial-quote">
+          "Koneksi internet fiber optic super cepat, stabil 24/7 tanpa FUP. Layanan pembayaran tagihan & bantuan CS terintegrasi sangat memudahkan."
+        </div>
+        <div class="testimonial-user">
+          <div class="d-flex align-items-center gap-3">
+            <div class="user-avatar-pill">PS</div>
+            <div>
+              <div class="user-info-name">Pelanggan Setia</div>
+              <div class="user-info-role"><%= settings.company_header %> Customer</div>
+            </div>
           </div>
-          <a class="btn btn-outline-light btn-sm btnx" href="/customer/login">
-            <i class="bi bi-box-arrow-in-right me-1"></i> Login
-          </a>
+          <div class="rating-stars">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+          </div>
         </div>
       </div>
-      <div class="body">
-        <form method="GET" action="/customer/check-billing" class="mb-3">
-          <div class="row g-2 align-items-center">
-            <div class="col-12 col-md-8">
-              <input class="form-control" name="q" value="<%= query || '' %>" placeholder="Masukkan nama / username / nomor / ID pelanggan" required>
-            </div>
-            <div class="col-12 col-md-4 d-grid">
-              <button class="btn btn-primary btnx" type="submit">
-                <i class="bi bi-search me-1"></i> Cek
-              </button>
-            </div>
+
+    </div>
+
+    <!-- ── RIGHT PANEL (LIGHT CONTENT SIDE) ── -->
+    <div class="right-panel">
+
+      <!-- Main Form Wrapper -->
+      <div class="login-form-wrapper">
+
+        <!-- Centered Logo (Mobile View Only) -->
+        <div class="text-center mb-3 d-lg-none">
+          <a href="/customer/home" class="d-inline-flex align-items-center justify-content-center text-decoration-none">
+            <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" 
+                 alt="Logo" style="height: 48px; width: auto; object-fit: contain;" onerror="this.style.display='none'">
+          </a>
+        </div>
+
+        <!-- Progress Dots Pill with Animation -->
+        <div class="top-progress-pill justify-content-center">
+          <div class="progress-dot active"></div>
+          <div class="progress-bar-segment active"></div>
+          <div class="progress-dot active small-dot"></div>
+          <div class="progress-bar-segment inactive"></div>
+          <div class="progress-dot inactive small-dot"></div>
+        </div>
+
+        <!-- Form Title Header -->
+        <h2 class="login-main-title">Cek & Bayar Tagihan</h2>
+        <p class="login-main-subtitle">
+          Masukkan ID Pelanggan, Nama, Nomor WhatsApp, atau Username PPPoE Anda
+        </p>
+
+        <!-- Search Form -->
+        <form method="GET" action="/customer/check-billing" class="mb-4">
+          <label for="q" class="field-label">Kata Kunci Pencarian Akun</label>
+          <div class="input-group">
+            <input type="text" class="custom-input-box" id="q" name="q" value="<%= query || '' %>" 
+                   placeholder="Contoh: ID12345, Budi, atau 08123456789" required autofocus>
           </div>
-          <div class="muted small mt-2">
-            Bisa pakai: Nama pelanggan, Nomor WhatsApp, PPPoE Username, GenieACS Tag, atau ID pelanggan.
-          </div>
+
+          <button type="submit" class="btn-masuk-primary">
+            <i class="bi bi-search me-1"></i>
+            <span>Cek Tagihan Pelanggan</span>
+          </button>
         </form>
 
+        <!-- Alerts -->
         <% if (error) { %>
-          <div class="alert alert-danger">
-            <i class="bi bi-exclamation-triangle me-2"></i><%= error %>
+          <div class="alert alert-danger py-2.5 px-3 mb-3 rounded-3 small fw-semibold text-center">
+            <i class="bi bi-exclamation-triangle me-2"></i> <%= error %>
           </div>
         <% } %>
+
         <% if (info) { %>
-          <div class="alert alert-success">
-            <i class="bi bi-check-circle me-2"></i><%= info %>
+          <div class="alert alert-success py-2.5 px-3 mb-3 rounded-3 small fw-semibold text-center">
+            <i class="bi bi-check-circle me-2"></i> <%= info %>
           </div>
         <% } %>
 
         <% if (query && !customer && (!matches || matches.length === 0)) { %>
-          <div class="alert alert-warning">
-            <i class="bi bi-info-circle me-2"></i>Pelanggan tidak ditemukan. Pastikan input sudah benar.
+          <div class="alert alert-warning py-3 px-4 mb-4 rounded-4 text-center">
+            <i class="bi bi-search fs-3 text-warning mb-2 d-block"></i>
+            <h6 class="fw-bold text-dark mb-1">Pelanggan Tidak Ditemukan</h6>
+            <small class="text-muted">Pastikan kata kunci ID, Nama, atau Nomor WhatsApp yang Anda masukkan sudah benar.</small>
           </div>
         <% } %>
 
+        <!-- Multiple Search Matches Table -->
         <% if (!customer && matches && matches.length > 0) { %>
-          <div class="mb-2 fw-bold">Hasil Pencarian</div>
-          <div class="muted small mb-2">Pilih pelanggan untuk melihat detail tagihan</div>
-          <div class="table-responsive">
-            <table class="tbl">
+          <div class="mb-3">
+            <h6 class="fw-bold text-dark mb-1"><i class="bi bi-list-stars me-1 text-primary"></i> Hasil Pencarian Akun</h6>
+            <small class="text-muted">Pilih akun Anda dari daftar di bawah untuk melihat rincian tagihan:</small>
+          </div>
+          <div class="table-responsive rounded-4 border bg-white mb-4">
+            <table class="custom-table">
               <thead>
                 <tr>
-                  <th>Pelanggan</th>
+                  <th>Nama Pelanggan</th>
                   <th class="text-end">Belum Bayar</th>
-                  <th class="text-end">Total</th>
-                  <th></th>
+                  <th class="text-end">Total Tagihan</th>
+                  <th class="text-end">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <% matches.forEach(m => { %>
                   <tr>
                     <td>
-                      <div class="fw-semibold"><%= m.customer_name %></div>
-                      <div class="muted small">
+                      <div class="fw-bold text-dark"><%= m.customer_name %></div>
+                      <div class="small text-muted">
                         ID: <%= m.customer_id %><% if (m.customer_phone) { %> • WA: <%= m.customer_phone %><% } %>
                       </div>
                     </td>
-                    <td class="text-end fw-semibold"><%= Number(m.unpaid_count || 0) %></td>
-                    <td class="text-end fw-semibold">Rp <%= Number(m.total_amount || 0).toLocaleString('id-ID') %></td>
+                    <td class="text-end fw-bold text-danger"><%= Number(m.unpaid_count || 0) %> Tagihan</td>
+                    <td class="text-end fw-extrabold text-dark">Rp <%= Number(m.total_amount || 0).toLocaleString('id-ID') %></td>
                     <td class="text-end">
-                      <a class="btn btn-outline-light btn-sm btnx" href="/customer/check-billing?q=<%= encodeURIComponent(String(m.customer_id)) %>">
-                        Lihat
+                      <a class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold text-decoration-none" href="/customer/check-billing?q=<%= encodeURIComponent(String(m.customer_id)) %>">
+                        Pilih <i class="bi bi-arrow-right"></i>
                       </a>
                     </td>
                   </tr>
@@ -147,42 +658,54 @@
           </div>
         <% } %>
 
+        <!-- Single Customer Details & Invoices -->
         <% if (customer) { %>
-          <div class="mb-3">
+          <div class="p-3 mb-4 rounded-4 border bg-white shadow-sm">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
               <div>
-                <div class="fw-bold"><%= customer.name %></div>
-                <div class="muted small">
-                  ID: <%= customer.id %>
-                  <% if (customer.phone) { %> • WA: <%= customer.phone %><% } %>
-                  <% if (customer.package_name) { %> • Paket: <%= customer.package_name %><% } %>
+                <h5 class="fw-extrabold text-dark mb-1"><%= customer.name %></h5>
+                <div class="small text-muted">
+                  <strong>ID:</strong> <%= customer.id %>
+                  <% if (customer.phone) { %> • <strong>WA:</strong> <%= customer.phone %><% } %>
+                  <% if (customer.package_name) { %> • <strong>Paket:</strong> <%= customer.package_name %><% } %>
                 </div>
               </div>
               <div>
                 <% const unpaidCount = unpaidInvoices ? unpaidInvoices.length : 0; %>
                 <% if (unpaidCount > 0) { %>
-                  <span class="pill pill-u"><i class="bi bi-exclamation-circle"></i> <%= unpaidCount %> Belum Bayar</span>
+                  <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-1.5 fw-bold">
+                    <i class="bi bi-exclamation-circle me-1"></i> <%= unpaidCount %> Belum Bayar
+                  </span>
                 <% } else { %>
-                  <span class="pill pill-p"><i class="bi bi-check-circle"></i> Lunas</span>
+                  <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1.5 fw-bold">
+                    <i class="bi bi-check-circle me-1"></i> Semua Lunas
+                  </span>
                 <% } %>
               </div>
             </div>
           </div>
 
-          <% const monthNames = ['','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']; %>
+          <% const monthNames = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']; %>
 
           <% if (!unpaidInvoices || unpaidInvoices.length === 0) { %>
-            <div class="alert alert-success">
-              <i class="bi bi-check-circle me-2"></i>Semua tagihan sudah lunas.
+            <div class="alert alert-success py-3 px-4 rounded-4 border-success border-opacity-25 text-center mb-4">
+              <i class="bi bi-check-circle-fill fs-2 text-success mb-2 d-block"></i>
+              <h6 class="fw-bold text-dark mb-1">Tidak Ada Tagihan Tertunggak</h6>
+              <small class="text-muted">Terima kasih! Seluruh tagihan internet Anda telah lunas.</small>
             </div>
           <% } else { %>
-            <div class="mb-2 fw-bold">Tagihan Belum Dibayar</div>
-            <div class="table-responsive">
-              <table class="tbl">
+            
+            <div class="mb-2">
+              <h6 class="fw-bold text-dark mb-1"><i class="bi bi-clock-history me-1 text-danger"></i> Tagihan Belum Dibayar</h6>
+              <small class="text-muted">Pilih tagihan yang ingin dibayar:</small>
+            </div>
+
+            <div class="table-responsive rounded-4 border bg-white mb-4">
+              <table class="custom-table">
                 <thead>
                   <tr>
-                    <th>Periode</th>
-                    <th class="text-end">Nominal</th>
+                    <th>Periode Tagihan</th>
+                    <th class="text-end">Nominal Tagihan</th>
                     <th class="text-end" style="width: 80px">Pilih</th>
                   </tr>
                 </thead>
@@ -190,10 +713,10 @@
                   <% unpaidInvoices.forEach((inv, idx) => { %>
                     <tr>
                       <td>
-                        <div class="fw-semibold"><%= monthNames[Number(inv.period_month)] %> <%= inv.period_year %></div>
-                        <div class="muted small">INV-<%= inv.id %></div>
+                        <div class="fw-bold text-dark"><%= monthNames[Number(inv.period_month)] %> <%= inv.period_year %></div>
+                        <div class="small text-muted">No. Invoice: INV-<%= inv.id %></div>
                       </td>
-                      <td class="text-end fw-semibold">Rp <%= Number(inv.amount || 0).toLocaleString('id-ID') %></td>
+                      <td class="text-end fw-extrabold text-dark fs-6">Rp <%= Number(inv.amount || 0).toLocaleString('id-ID') %></td>
                       <td class="text-end">
                         <input
                           class="form-check-input inv-radio"
@@ -205,6 +728,7 @@
                           data-token="<%= (invoiceTokens && invoiceTokens[String(inv.id)]) ? invoiceTokens[String(inv.id)] : '' %>"
                           <%= idx === 0 ? 'checked' : '' %>
                           <%= idx === 0 ? 'required' : '' %>
+                          style="cursor: pointer; width: 20px; height: 20px;"
                         >
                       </td>
                     </tr>
@@ -213,141 +737,90 @@
               </table>
             </div>
 
-            <div class="mt-3" style="border-top:1px solid rgba(148,163,184,.18); padding-top: 14px">
-              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                <div class="fw-bold">Pembayaran</div>
-                <div class="muted small">
+            <!-- Payment Methods Form Section -->
+            <div class="pt-3 border-top">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                <h6 class="fw-bold text-dark mb-0"><i class="bi bi-credit-card-2-front me-1 text-primary"></i> Pilih Metode Pembayaran</h6>
+                <div class="small text-muted fw-bold">
                   <span id="pay_inv_text"></span>
-                  <span id="pay_amount_text"></span>
+                  <span id="pay_amount_text" class="text-primary fs-6 fw-extrabold"></span>
                 </div>
               </div>
 
-              <form id="payForm" method="POST" action="/customer/public/payment/create/0" class="d-grid gap-2">
+              <form id="payForm" method="POST" action="/customer/public/payment/create/0" class="d-grid gap-3">
                 <input type="hidden" name="token" id="pay_token" value="">
                 <input type="hidden" name="method" id="pay_method" value="">
 
                 <% const hasStaticQris = (String(settings.qris_static_qr_url || '').trim() || String(settings.qris_static_payload || '').trim()) && (settings.qris_static_enabled !== false && settings.qris_static_enabled !== 'false' && settings.qris_static_enabled !== 0 && settings.qris_static_enabled !== '0'); %>
                 <% if (hasStaticQris || (paymentChannels && paymentChannels.length > 0)) { %>
-                  <div class="pay-scroll">
-                    <div class="payment-methods-grid">
-                      <% if (hasStaticQris) { %>
-                        <label style="cursor: pointer">
-                          <input
-                            class="pm-radio"
-                            type="radio"
-                            name="payment_method"
-                            value="QRIS_STATIC"
-                            data-code="QRIS_STATIC"
-                            checked
-                            required
-                          >
-                          <div class="pay-method-item">
-                            <div class="p-icon"><i class="bi bi-qr-code-scan"></i></div>
-                            <div class="p-info">
-                              <span class="p-name">QRIS Statis (Scan)</span>
-                              <span class="p-sub">
-                                <span class="p-chip">Nominal unik</span>
-                                <span class="p-chip">E-Wallet</span>
-                              </span>
-                            </div>
+                  <div class="pay-methods-grid">
+                    <% if (hasStaticQris) { %>
+                      <label style="cursor: pointer">
+                        <input
+                          class="pm-radio"
+                          type="radio"
+                          name="payment_method"
+                          value="QRIS_STATIC"
+                          data-code="QRIS_STATIC"
+                          checked
+                          required
+                        >
+                        <div class="pay-method-card">
+                          <div class="pay-icon-box"><i class="bi bi-qr-code-scan"></i></div>
+                          <div>
+                            <div class="pay-name">QRIS Statis</div>
+                            <div class="pay-fee-chip">Scan E-Wallet / Bank</div>
                           </div>
-                        </label>
-                      <% } %>
-                      <% paymentChannels.forEach((ch, idx) => {
-                        const code = String(ch.code || '').toUpperCase();
-                        const name = String(ch.name || code);
-                        const group = String(ch.group || '').toLowerCase();
-                        const fee = Number(ch.total_fee?.flat || 0);
-                        const feePercent = Number(ch.total_fee?.percent || 0);
-                        const iconUrl = String(ch.icon_url || '');
-                        
-                        let badgeClass = 'pb-bank';
-                        let iconHtml = '<i class="bi bi-credit-card"></i>';
-                        
-                        if (code === 'QRIS') {
-                          badgeClass = 'pb-qris';
-                          iconHtml = '<i class="bi bi-qr-code-scan"></i>';
-                        } else if (group.includes('e-wallet') || group.includes('ewallet')) {
-                          if (name.toLowerCase().includes('dana')) {
-                            badgeClass = 'pb-dana';
-                            iconHtml = '<span class="p-badge pb-dana">DANA</span>';
-                          } else if (name.toLowerCase().includes('ovo')) {
-                            badgeClass = 'pb-ovo';
-                            iconHtml = '<span class="p-badge pb-ovo">OVO</span>';
-                          } else if (name.toLowerCase().includes('shopee')) {
-                            badgeClass = 'pb-shopeepay';
-                            iconHtml = '<span class="p-badge pb-shopeepay">SPay</span>';
-                          } else if (name.toLowerCase().includes('linkaja')) {
-                            badgeClass = 'pb-linkaja';
-                            iconHtml = '<span class="p-badge pb-linkaja">LinkAja</span>';
-                          } else if (name.toLowerCase().includes('gopay')) {
-                            badgeClass = 'pb-gopay';
-                            iconHtml = '<span class="p-badge pb-gopay">GoPay</span>';
-                          } else {
-                            iconHtml = '<i class="bi bi-wallet2"></i>';
-                          }
-                        } else if (group.includes('virtual') || group.includes('bank')) {
-                          iconHtml = '<i class="bi bi-bank"></i>';
-                        }
-                      %>
-                        <label style="cursor: pointer">
-                          <input
-                            class="pm-radio"
-                            type="radio"
-                            name="payment_method"
-                            value="<%= code %>"
-                            data-code="<%= code %>"
-                            <%= (!hasStaticQris && idx === 0) ? 'checked' : '' %>
-                            required
-                          >
-                          <div class="pay-method-item">
-                            <div class="p-icon">
-                              <% if (iconUrl) { %>
-                                <img src="<%= iconUrl %>" alt="<%= name %>" class="p-logo">
-                              <% } else { %>
-                                <%- iconHtml %>
-                              <% } %>
-                            </div>
-                            <div class="p-info">
-                              <span class="p-name"><%= name %></span>
-                              <span class="p-sub">
-                                <% if (fee > 0 || feePercent > 0) { %>
-                                  <span class="p-chip">
-                                    <% if (feePercent > 0) { %>
-                                      +<%= feePercent %>%
-                                    <% } %>
-                                    <% if (fee > 0) { %>
-                                      <%= feePercent > 0 ? ' + ' : '+' %>Rp <%= fee.toLocaleString('id-ID') %>
-                                    <% } %>
-                                  </span>
-                                <% } else { %>
-                                  <span class="p-chip">Gratis</span>
-                                <% } %>
-                                <% if (ch.active === false) { %>
-                                  <span class="p-chip" style="background: rgba(248, 81, 73, .12); color:#fca5a5">Nonaktif</span>
-                                <% } %>
-                              </span>
-                            </div>
+                        </div>
+                      </label>
+                    <% } %>
+                    <% paymentChannels.forEach((ch, idx) => {
+                      const code = String(ch.code || '').toUpperCase();
+                      const name = String(ch.name || code);
+                      const iconUrl = String(ch.icon_url || '');
+                    %>
+                      <label style="cursor: pointer">
+                        <input
+                          class="pm-radio"
+                          type="radio"
+                          name="payment_method"
+                          value="<%= code %>"
+                          data-code="<%= code %>"
+                          <%= (!hasStaticQris && idx === 0) ? 'checked' : '' %>
+                          required
+                        >
+                        <div class="pay-method-card">
+                          <div class="pay-icon-box">
+                            <% if (iconUrl) { %>
+                              <img src="<%= iconUrl %>" alt="<%= name %>" style="width: 100%; height: 100%; object-fit: contain; padding: 4px;">
+                            <% } else { %>
+                              <i class="bi bi-credit-card"></i>
+                            <% } %>
                           </div>
-                        </label>
-                      <% }) %>
-                    </div>
+                          <div>
+                            <div class="pay-name"><%= name %></div>
+                            <div class="pay-fee-chip">Online Instant</div>
+                          </div>
+                        </div>
+                      </label>
+                    <% }) %>
                   </div>
                 <% } else { %>
-                  <div class="alert alert-warning">
-                    <i class="bi bi-exclamation-triangle me-2"></i>Metode pembayaran tidak tersedia saat ini.
+                  <div class="alert alert-warning py-2.5 px-3 rounded-3 small fw-semibold">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Metode pembayaran online sedang tidak tersedia saat ini.
                   </div>
                 <% } %>
 
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="1" id="tos_pay" name="tos" required>
-                  <label class="form-check-label muted" for="tos_pay">
-                    Saya setuju dengan <a href="/customer/tos" target="_blank" rel="noopener">Syarat & Ketentuan (TOS)</a>
+                <div class="form-check mt-2">
+                  <input class="form-check-input" type="checkbox" value="1" id="tos_pay" name="tos" required style="cursor: pointer;">
+                  <label class="form-check-label small text-muted" for="tos_pay" style="cursor: pointer;">
+                    Saya setuju dengan <a href="/customer/tos" target="_blank" rel="noopener" class="fw-bold text-decoration-none" style="color: var(--primary-teal);">Syarat & Ketentuan Pembayaran</a>
                   </label>
                 </div>
 
-                <button id="payBtn" class="btn btn-primary btnx" type="submit" disabled>
-                  <i class="bi bi-credit-card me-1"></i> Bayar
+                <button id="payBtn" class="btn-masuk-primary mt-2" type="submit" disabled>
+                  <span>Proses Pembayaran</span>
+                  <i class="bi bi-arrow-right fs-5"></i>
                 </button>
               </form>
             </div>
@@ -397,29 +870,30 @@
             </script>
           <% } %>
 
+          <!-- Paid History Table -->
           <% const paidInvoices = (invoices || []).filter(i => i.status === 'paid'); %>
           <% if (paidInvoices.length > 0) { %>
-            <div class="mt-4">
-              <div class="mb-2 fw-bold">Riwayat (Lunas)</div>
-              <div class="muted small">Menampilkan <%= Math.min(paidInvoices.length, 10) %> data terbaru</div>
-              <div class="table-responsive mt-2">
-                <table class="tbl">
+            <div class="mt-4 pt-3 border-top">
+              <h6 class="fw-bold text-dark mb-1"><i class="bi bi-clock-history me-1 text-success"></i> Riwayat Tagihan Lunas</h6>
+              <small class="text-muted">Menampilkan <%= Math.min(paidInvoices.length, 10) %> data pembayaran terbaru:</small>
+              <div class="table-responsive rounded-4 border bg-white mt-2">
+                <table class="custom-table">
                   <thead>
                     <tr>
                       <th>Periode</th>
                       <th class="text-end">Nominal</th>
-                      <th>Tanggal</th>
+                      <th class="text-end">Tanggal Lunas</th>
                     </tr>
                   </thead>
                   <tbody>
                     <% paidInvoices.slice(0, 10).forEach(inv => { %>
                       <tr>
                         <td>
-                          <div class="fw-semibold"><%= monthNames[Number(inv.period_month)] %> <%= inv.period_year %></div>
-                          <div class="muted small">INV-<%= inv.id %></div>
+                          <div class="fw-bold text-dark"><%= monthNames[Number(inv.period_month)] %> <%= inv.period_year %></div>
+                          <div class="small text-muted">INV-<%= inv.id %></div>
                         </td>
-                        <td class="text-end">Rp <%= Number(inv.amount || 0).toLocaleString('id-ID') %></td>
-                        <td class="muted small"><%= inv.paid_at ? new Date(inv.paid_at).toLocaleString('id-ID') : '-' %></td>
+                        <td class="text-end fw-extrabold text-success">Rp <%= Number(inv.amount || 0).toLocaleString('id-ID') %></td>
+                        <td class="text-end small text-muted"><%= inv.paid_at ? new Date(inv.paid_at).toLocaleString('id-ID') : '-' %></td>
                       </tr>
                     <% }) %>
                   </tbody>
@@ -429,11 +903,44 @@
           <% } %>
         <% } %>
 
-        <div class="muted small mt-4">
-          &copy; <%= new Date().getFullYear() %> <%= settings.company_header || '' %>
+        <!-- Quick Action Tools Grid -->
+        <div class="quick-access-grid">
+          <a href="/customer/login" class="quick-access-btn">
+            <i class="bi bi-box-arrow-in-right text-primary quick-access-icon"></i>
+            <span class="quick-access-label">Login Portal</span>
+          </a>
+
+          <a href="/customer/voucher" class="quick-access-btn">
+            <i class="bi bi-ticket-perforated text-warning quick-access-icon"></i>
+            <span class="quick-access-label">Beli Voucher</span>
+          </a>
+
+          <a href="/customer/register" class="quick-access-btn">
+            <i class="bi bi-person-plus text-success quick-access-icon"></i>
+            <span class="quick-access-label">Pasang Baru</span>
+          </a>
+
+          <% 
+            let waClean = String(settings.company_phone || '').replace(/\D/g, '');
+            if (waClean.startsWith('0')) waClean = '62' + waClean.slice(1);
+          %>
+          <a href="<%= waClean ? 'https://wa.me/' + waClean : '#' %>" target="_blank" rel="noopener" class="quick-access-btn">
+            <i class="bi bi-whatsapp text-success quick-access-icon"></i>
+            <span class="quick-access-label">Bantuan CS</span>
+          </a>
         </div>
+
+        <!-- Register Link -->
+        <div class="register-footer-link">
+          Sudah memiliki akun? <a href="/customer/login">Masuk ke Portal</a> • <a href="/customer/home">Beranda Utama</a>
+        </div>
+
       </div>
+
     </div>
+
   </div>
+
 </body>
+
 </html>
