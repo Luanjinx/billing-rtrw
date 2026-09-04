@@ -79,10 +79,16 @@
       white-space: nowrap;
     }
 
-    .navbar-brand img {
-      height: 36px;
-      width: auto;
-      object-fit: contain;
+    .navbar-brand img,
+    img[alt="Logo"] {
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      height: 52px !important;
+      max-width: 100% !important;
+      width: auto !important;
+      object-fit: contain !important;
     }
 
     .nav-link {
@@ -694,7 +700,7 @@
   <nav class="navbar navbar-expand-lg sticky-top custom-navbar">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="/customer/home">
-        <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" alt="Logo" onerror="this.style.display='none'">
+        <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" alt="Logo" style="height: 46px; width: auto; max-width: 100%; object-fit: contain; background: transparent; border: none; box-shadow: none;" onerror="this.style.display='none'">
       </a>
 
       <button class="navbar-toggler border-0 text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
@@ -1107,7 +1113,7 @@
       <div class="row g-4">
         <div class="col-lg-4">
           <div class="footer-brand d-flex align-items-center gap-2 mb-3">
-            <img src="/img/logo.png" alt="Logo" onerror="this.style.display='none'">
+            <img src="/img/logo.png?v=<%= (typeof settings !== 'undefined' && settings.logo_updated_at) ? settings.logo_updated_at : Date.now() %>" alt="Logo" style="height: 42px; width: auto; max-width: 100%; object-fit: contain; background: transparent; border: none; box-shadow: none;" onerror="this.style.display='none'">
           </div>
           <p class="small mb-3" style="color: #cbd5e1; max-width: 320px;">
             Penyedia layanan internet fiber optic handal dan terpercaya untuk memenuhi kebutuhan konektivitas digital Anda.
